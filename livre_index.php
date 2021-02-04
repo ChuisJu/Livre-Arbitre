@@ -17,14 +17,24 @@
 
     <body>
 
-
         <h1  class="titre"> Livre Arbitre </h1>
 
         <div>
-            <grid> </grid>
+            <?php   
+                $link = mysqli_connect('localhost','root','');
+                mysqli_select_db('', $link);
+                if (!$link) {
+                    echo "erreur de connexion à la base de données <br>";
+                } else {
+                    echo "connexion établie <br>";
+                }
+                // récupéré la date de retour des livres et ajouter une possibilité de rallonger le temps 
+            ?>
+            <br>
+            <p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p><p>Texte pour tester </p>
+                
+            
         </div>
-
-        <p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p><p>a <br></p>
     </body>
 
 </html>
