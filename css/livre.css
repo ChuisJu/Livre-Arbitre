@@ -1,0 +1,40 @@
+/* font */
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    src: url(fonts/Roboto-Light.ttf);
+}
+
+/* image de fond */
+body{
+    position: absolute;
+    background-image: url(img/fond.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+}
+
+div{
+    padding-top: 100px;
+    color: #f806d8;
+}
+
+.titre {
+    margin-left: 150px;
+    position: absolute;
+    font-size: 64px;
+    color: red;
+}
+
+/* barre de déroulement */
+::-webkit-scrollbar {
+    width: 12px;
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #1d3e5c;
+    border-radius: 0px;
+    -webkit-border-radius: 30px;
+}
