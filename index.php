@@ -17,30 +17,10 @@
     </head>
     <body>
 
-        <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-primary">
-            <a href="./index.php" class="navbar-brand">Livre Arbitre</a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse2">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarCollapse2">
-                <div class="navbar-nav">
-                    
-                    <a href="./index.php" class="nav-item nav-link active">Accueil</a>
-                    <a href="./livres.php" class="nav-item nav-link">Livres</a>
-                    <a href="./contact.php" class="nav-item nav-link">Contact</a>
-                </div>
-                <form class="form-inline ml-auto">
-                <div class="navbar-nav">
-                    <a href="./login.php" class="nav-item nav-link">Espace client</a>
-                </div>
-                </form>
-            </div>
-        </nav>
+        <?php include 'inc/header.php'; ?>
 
         <!-- MAIN CONTENT -->
-        
+
         <div class="main">
             <div class="container">
                 <div class="row">
@@ -63,25 +43,6 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
-        <div class="fixed footer-basic">
-            <footer>
-                <div class="social">
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-snapchat"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-google"></i></a>
-                </div>
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="#">Accueil</a></li>
-                    <li class="list-inline-item"><a href="#">Livres</a></li>
-                    <li class="list-inline-item"><a href="#">Contact</a></li>
-                    <li class="list-inline-item"><a href="#">Espace client</a></li>
-                </ul>
-                <p class="copyright">Livre Arbitre © 2021</p>
-            </footer>
-        </div>
-    </div>
+        <?php include 'inc/footer.php'; ?>
     </body>
 </html>
