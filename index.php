@@ -21,7 +21,9 @@
     </head>
     <body>
 
-        <?php include 'inc/header.php'; ?>
+        <?php 
+        include 'inc/header.php';
+        ?>
 
         <!-- MAIN CONTENT -->
 
@@ -31,27 +33,27 @@
                     <div class="col">
                         <div class="panel1">
                             <?php 
-                            [I M A G E]<br>
-                            Titre : <br>
-                            Auteur : <br>
+                            echo "[I M A G E]<br>";
+                            echo "Titre : <br>";
+                            echo "Auteur : <br>";
                             ?> 
                         </div>
                     </div>
                     <div class="col">
                         <div class="panel2">
                             <?php 
-                            [I M A G E]<br>
-                            Titre : <br>
-                            Auteur : <br>
+                            echo "[I M A G E]<br>";
+                            echo "Titre : <br>";
+                            echo "Auteur : <br>";
                             ?> 
                         </div>
                     </div>
                     <div class="col">
                         <div class="panel3">
                             <?php 
-                            [I M A G E]<br>
-                            Titre : <br>
-                            Auteur : <br>
+                            echo "[I M A G E]<br>";
+                            echo "Titre : <br>";
+                            echo "Auteur : <br>";
                             ?> 
                         </div>
                     </div>
