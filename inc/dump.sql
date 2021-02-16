@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 11 fév. 2021 à 16:15
+-- Généré le : mar. 16 fév. 2021 à 17:48
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -24,31 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `administrateur`
---
-
-DROP TABLE IF EXISTS `administrateur`;
-CREATE TABLE IF NOT EXISTS `administrateur` (
-  `idAdmin` int(11) NOT NULL AUTO_INCREMENT,
-  `mdpAdmin` varchar(50) NOT NULL,
-  `utilisateurAdmin` varchar(50) NOT NULL,
-  PRIMARY KEY (`idAdmin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `auteur`
 --
 
 DROP TABLE IF EXISTS `auteur`;
 CREATE TABLE IF NOT EXISTS `auteur` (
-  `idLivre` int(11) NOT NULL,
+  `isbn` int(11) NOT NULL,
   `idPersonne` int(11) NOT NULL,
   `idRole` int(11) NOT NULL,
-  PRIMARY KEY (`idLivre`,`idPersonne`,`idRole`),
+  PRIMARY KEY (`isbn`,`idPersonne`,`idRole`),
   KEY `Auteur_Personne0_FK` (`idPersonne`),
   KEY `Auteur_Roles1_FK` (`idRole`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `date`
+--
+
+DROP TABLE IF EXISTS `date`;
+CREATE TABLE IF NOT EXISTS `date` (
+  `dateEmpreint` date NOT NULL,
+  PRIMARY KEY (`dateEmpreint`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -61,9 +59,23 @@ DROP TABLE IF EXISTS `editeur`;
 CREATE TABLE IF NOT EXISTS `editeur` (
   `idEditeur` int(11) NOT NULL AUTO_INCREMENT,
   `libelleEditeur` varchar(50) NOT NULL,
-  `idLivre` int(11) NOT NULL,
-  PRIMARY KEY (`idEditeur`),
-  KEY `Editeur_Livre_FK` (`idLivre`)
+  PRIMARY KEY (`idEditeur`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `emprunt`
+--
+
+DROP TABLE IF EXISTS `emprunt`;
+CREATE TABLE IF NOT EXISTS `emprunt` (
+  `isbn` int(11) NOT NULL,
+  `idUtilisateur` int(11) NOT NULL,
+  `dateEmpreint` date NOT NULL,
+  PRIMARY KEY (`isbn`,`idUtilisateur`,`dateEmpreint`),
+  KEY `Emprunt_Utilisateur0_FK` (`idUtilisateur`),
+  KEY `Emprunt_Date1_FK` (`dateEmpreint`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -75,8 +87,8 @@ CREATE TABLE IF NOT EXISTS `editeur` (
 DROP TABLE IF EXISTS `formulaire`;
 CREATE TABLE IF NOT EXISTS `formulaire` (
   `idForm` int(11) NOT NULL AUTO_INCREMENT,
-  `prenomForm` varchar(50) NOT NULL,
-  `nomForm` varchar(50) NOT NULL,
+  `prenomForm` varchar(20) NOT NULL,
+  `nomForm` varchar(20) NOT NULL,
   `objet` varchar(90) NOT NULL,
   `mail` varchar(90) NOT NULL,
   `telephone` int(11) NOT NULL,
@@ -94,9 +106,7 @@ DROP TABLE IF EXISTS `genre`;
 CREATE TABLE IF NOT EXISTS `genre` (
   `idGenre` int(11) NOT NULL AUTO_INCREMENT,
   `libelle` varchar(50) NOT NULL,
-  `idLivre` int(11) NOT NULL,
-  PRIMARY KEY (`idGenre`),
-  KEY `Genre_Livre_FK` (`idLivre`)
+  PRIMARY KEY (`idGenre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -109,9 +119,7 @@ DROP TABLE IF EXISTS `langue`;
 CREATE TABLE IF NOT EXISTS `langue` (
   `idLangue` int(11) NOT NULL AUTO_INCREMENT,
   `language` varchar(50) NOT NULL,
-  `idLivre` int(11) NOT NULL,
-  PRIMARY KEY (`idLangue`),
-  KEY `Langue_Livre_FK` (`idLivre`)
+  PRIMARY KEY (`idLangue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -122,7 +130,6 @@ CREATE TABLE IF NOT EXISTS `langue` (
 
 DROP TABLE IF EXISTS `livre`;
 CREATE TABLE IF NOT EXISTS `livre` (
-  `idLivre` int(11) NOT NULL,
   `isbn` int(11) NOT NULL,
   `titre` varchar(90) NOT NULL,
   `editeur` int(11) NOT NULL,
@@ -132,7 +139,13 @@ CREATE TABLE IF NOT EXISTS `livre` (
   `resume` varchar(50) NOT NULL,
   `commentaireLivre` varchar(255) NOT NULL,
   `likeLivre` int(11) NOT NULL,
-  PRIMARY KEY (`idLivre`)
+  `idLangue` int(11) NOT NULL,
+  `idEditeur` int(11) NOT NULL,
+  `idGenre` int(11) NOT NULL,
+  PRIMARY KEY (`isbn`),
+  KEY `Livre_Langue_FK` (`idLangue`),
+  KEY `Livre_Editeur0_FK` (`idEditeur`),
+  KEY `Livre_Genre1_FK` (`idGenre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -174,6 +187,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `mdp` varchar(50) NOT NULL,
   `utilisateur` varchar(50) NOT NULL,
   `numCarte` varchar(50) NOT NULL,
+  `Admin` tinyint(1) NOT NULL,
   PRIMARY KEY (`idUtilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -185,27 +199,25 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 -- Contraintes pour la table `auteur`
 --
 ALTER TABLE `auteur`
-  ADD CONSTRAINT `Auteur_Livre_FK` FOREIGN KEY (`idLivre`) REFERENCES `livre` (`idLivre`),
+  ADD CONSTRAINT `Auteur_Livre_FK` FOREIGN KEY (`isbn`) REFERENCES `livre` (`isbn`),
   ADD CONSTRAINT `Auteur_Personne0_FK` FOREIGN KEY (`idPersonne`) REFERENCES `personne` (`idPersonne`),
   ADD CONSTRAINT `Auteur_Roles1_FK` FOREIGN KEY (`idRole`) REFERENCES `roles` (`idRole`);
 
 --
--- Contraintes pour la table `editeur`
+-- Contraintes pour la table `emprunt`
 --
-ALTER TABLE `editeur`
-  ADD CONSTRAINT `Editeur_Livre_FK` FOREIGN KEY (`idLivre`) REFERENCES `livre` (`idLivre`);
+ALTER TABLE `emprunt`
+  ADD CONSTRAINT `Emprunt_Date1_FK` FOREIGN KEY (`dateEmpreint`) REFERENCES `date` (`dateEmpreint`),
+  ADD CONSTRAINT `Emprunt_Livre_FK` FOREIGN KEY (`isbn`) REFERENCES `livre` (`isbn`),
+  ADD CONSTRAINT `Emprunt_Utilisateur0_FK` FOREIGN KEY (`idUtilisateur`) REFERENCES `utilisateur` (`idUtilisateur`);
 
 --
--- Contraintes pour la table `genre`
+-- Contraintes pour la table `livre`
 --
-ALTER TABLE `genre`
-  ADD CONSTRAINT `Genre_Livre_FK` FOREIGN KEY (`idLivre`) REFERENCES `livre` (`idLivre`);
-
---
--- Contraintes pour la table `langue`
---
-ALTER TABLE `langue`
-  ADD CONSTRAINT `Langue_Livre_FK` FOREIGN KEY (`idLivre`) REFERENCES `livre` (`idLivre`);
+ALTER TABLE `livre`
+  ADD CONSTRAINT `Livre_Editeur0_FK` FOREIGN KEY (`idEditeur`) REFERENCES `editeur` (`idEditeur`),
+  ADD CONSTRAINT `Livre_Genre1_FK` FOREIGN KEY (`idGenre`) REFERENCES `genre` (`idGenre`),
+  ADD CONSTRAINT `Livre_Langue_FK` FOREIGN KEY (`idLangue`) REFERENCES `langue` (`idLangue`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
