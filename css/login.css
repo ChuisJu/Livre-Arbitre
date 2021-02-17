@@ -1,0 +1,22 @@
+/*Grilles*/
+.grille > div {
+            border-radius: 15px;
+            padding: 10px;
+            background-color: rgb(218, 212, 212);
+            border: 2px solid;
+        }
+.grille {
+    display: grid;
+    grid-template-columns: 1fr 12fr 1fr;
+    grid-column-gap: 45px;
+    grid-row-gap: 90px;
+}
+
+.formulaire{
+	grid-column: 2;
+}
+/*Formulaire*/
+button{
+	background-color:#2196f3;
+	color:white;
+}

@@ -12,6 +12,8 @@
                     <a href="./index.php" class="nav-item nav-link active">Accueil</a>
                     <a href="./livres.php" class="nav-item nav-link">Livres</a>
                     <a href="./contact.php" class="nav-item nav-link">Contact</a>
+                    <a href="./login.php" class="nav-item nav-link">Se Connecter</a>
+                    <?php echo "<a href='./signin.php' class='nav-item nav-link'>S'inscrire</a>"?>
                 </div>
                 <form class="form-inline ml-auto">
                 <div class="navbar-nav">
