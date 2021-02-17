@@ -23,43 +23,38 @@
 
         <?php 
         include 'inc/header.php';
+        include 'inc/db_conn.php';
         ?>
 
         <!-- MAIN CONTENT -->
 
-        <div class="main">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="panel1">
-                            <?php 
-                            echo "[I M A G E]<br>";
-                            echo "Titre : <br>";
-                            echo "Auteur : <br>";
-                            ?> 
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="panel2">
-                            <?php 
-                            echo "[I M A G E]<br>";
-                            echo "Titre : <br>";
-                            echo "Auteur : <br>";
-                            ?> 
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="panel3">
-                            <?php 
-                            echo "[I M A G E]<br>";
-                            echo "Titre : <br>";
-                            echo "Auteur : <br>";
-                            ?> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<?php
+    $res = $link->query("SELECT livre.titre,livre.isbn,personne.prenom,personne.nom FROM livre JOIN auteur ON auteur.isbn =livre.isbn JOIN personne ON personne.idPersonne = auteur.idPersonne");
+    if($res)
+    {
+        echo'<div class="main"><div class="container">';
+        $i=1;
+        while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
+        {
+            if($i%3==1)
+            {
+                echo '<div class="row">';
+            }
+                    echo'<div class="col"><div class="panel1">';
+                                echo '<img src="img/'.$row["isbn"].'.jpg"><br>';
+                                echo 'Titre : '.$row["titre"].'<br>';
+                                echo 'Auteur : '.$row["prenom"].' '.$row["nom"].'<br><br>';
+                                
+                        echo'</div></div>';
+            if($i%3==0)
+            {
+                echo '</div>';
+            }
+            $i++;
+        }
+    }
+    echo '</div></div></div>';
+?>
 
         <?php include 'inc/footer.php'; ?>
     </body>
