@@ -40,7 +40,7 @@ echo "<div class='book_grille'>";
     
     
 		
-		echo "<img src='img/".$id.".jpg'  height=60% width=60%>";
+		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
 		echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
