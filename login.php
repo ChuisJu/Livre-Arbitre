@@ -30,8 +30,8 @@
 
         <div class="main">
             <div class="container"><br><br><br>
-				<div class ="grille">
-		<div class="formulaire"><form method="post" action="login.php">
+                <div class ="grille">
+        <div class="formulaire"><form method="post" action="login.php">
             <fieldset class="formulaire">
                 <fieldset class="formulaire">
                 <legend>Vos idenfiants</legend>
@@ -43,7 +43,7 @@
                     <label for="name">Mot de passe :</label><br>
                     <input type="password" id="password" name="password" required>
                     <br>
-					</select>
+                    </select>
                   
 
 
@@ -62,5 +62,7 @@
         <?php include 'inc/footer.php'; ?>
     </body>
 </html>
+
+
 
 

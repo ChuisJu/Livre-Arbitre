@@ -21,7 +21,7 @@
     </head>
     <body>
 
-        <?php 
+        <?php
         include 'inc/header.php';
         include 'inc/db_conn.php';
         ?>
@@ -40,7 +40,7 @@
                 echo '<div class="row">';
             }
                     echo'<div class="col"><div class="panel1">';
-                                echo '<img src="img/'.$row["isbn"].'.jpg"><br>';
+                                echo '<a href="detail.php?isbn='.$row["isbn"].'"><img src="img/'.$row["isbn"].'.jpg"></a><br>';
                                 echo 'Titre : '.$row["titre"].'<br>';
                                 echo 'Auteur : '.$row["prenom"].' '.$row["nom"].'<br><br>';
                                 
