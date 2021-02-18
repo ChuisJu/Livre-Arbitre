@@ -25,14 +25,13 @@
         include 'inc/header.php';
         include 'inc/db_conn.php';
         ?>
-
         <!-- MAIN CONTENT -->
 
 <?php
-    $res = $link->query("SELECT livre.titre,livre.isbn,personne.prenom,personne.nom FROM livre JOIN auteur ON auteur.isbn =livre.isbn JOIN personne ON personne.idPersonne = auteur.idPersonne");
+    $res = $link->query("SELECT livre.titre,livre.isbn,personne.prenom,personne.nom FROM livre JOIN auteur ON auteur.isbn =livre.isbn JOIN personne ON personne.idPersonne = auteur.idPersonne JOIN roles ON auteur.idRole=roles.idRole WHERE role='Ecrivain'");
     if($res)
     {
-        echo'<div class="main"><div class="container">';
+        echo'<div class="main"><div class="container"><br>';
         $i=1;
         while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
         {
