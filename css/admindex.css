@@ -1,0 +1,25 @@
+
+.container{
+    
+}
+
+.title{
+    text-align: center;
+}
+
+thead{
+    background-color:#2196f3;
+}
+
+table{
+    color: #2196f3;
+    margin:auto;
+}
+
+th{
+    color:white;
+}
+
+td{
+    color: #2196f3;
+}
