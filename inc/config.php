@@ -5,7 +5,7 @@ $CONFIG = array('root_path' => realpath(__DIR__),
                 'dbuser' => 'biblioreader',
                 'dbpwd' => 'password',
                 'dbport' => '3306',
-                'dbname' => 'bib'
+                'dbname' => 'livrearbitre'
             );
 
 ?>
