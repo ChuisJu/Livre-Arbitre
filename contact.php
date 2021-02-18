@@ -1,7 +1,7 @@
 <?php
 
     include 'inc/config.php';
-    include $CONFIG['root_path'] . '/db_conn.php'; 
+    include 'inc/db_conn.php'; 
 
 ?>
 
@@ -54,7 +54,7 @@
     
         <?php
 
-        include './inc/db_conn.php';
+        include 'inc/db_conn.php';
 
         if(isset($_POST['prenom'])){
             if(isset($_POST['nom'])){
@@ -62,10 +62,10 @@
                     if(isset($_POST['mail'])){
                         if(isset($_POST['telephone'])){
                             if(isset($_POST['commentaire'])){
-                                if (preg_match("#^0[1-68]([-. ]?[0-9]{2}){4}$#", $_POST['telephone'])){
+                                if(preg_match("#^0[1-68]([-. ]?[0-9]{2}){4}$#", $_POST['telephone'])){
 
-                                    $sql = "INSERT INTO formulaire (prenom, nom, objet, mail, telephone, commentaire) VALUES (?,?,?,?,?,?)";
-                                    $query = $con->prepare($sql);
+                                    $sql = "INSERT INTO formulaire (prenomForm, nomForm, objet, mail, telephone, commentaire) VALUES (?,?,?,?,?,?)";
+                                    $query = $link->prepare($sql);
                                     $query->execute([$_POST['prenom'], $_POST['nom'], $_POST['objet'], $_POST['mail'], $_POST['telephone'], $_POST['commentaire']]);
                                     echo "<script>alert('Nous avons bien reçu votre formulaire !');</script>";
 
