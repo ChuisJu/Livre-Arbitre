@@ -10,10 +10,10 @@
             <a href="#"><i class="fa fa-google"></i></a>
         </div>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Accueil</a></li>
-            <li class="list-inline-item"><a href="#">Livres</a></li>
-            <li class="list-inline-item"><a href="#">Contact</a></li>
-            <li class="list-inline-item"><a href="#">Espace client</a></li>
+            <li class="list-inline-item"><a href="./index.php">Accueil</a></li>
+            <li class="list-inline-item"><a href="./livres.php">Livres</a></li>
+            <li class="list-inline-item"><a href="./contact.php">Contact</a></li>
+            <li class="list-inline-item"><a href="./espace">Espace client</a></li>
         </ul>
         <p class="copyright">Livre Arbitre © 2021</p>
     </footer>
