@@ -12,7 +12,6 @@
                 <div class="navbar-nav">
                     
                     <a href='<?php echo $CONFIG['root_path'] . "index.php" ?>' class="nav-item nav-link active">Accueil</a>
-                    <a href='<?php echo $CONFIG['root_path'] . "livres.php" ?>' class="nav-item nav-link">Livres</a>
                     <a href='<?php echo $CONFIG['root_path'] . "contact.php" ?>' class="nav-item nav-link">Contact</a>
                 </div>
                 <form class="form-inline ml-auto">
