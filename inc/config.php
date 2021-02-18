@@ -1,6 +1,6 @@
 <?php
 
-$CONFIG = array('root_path' => realpath(__DIR__),
+$CONFIG = array('root_path' => 'http://' . $_SERVER['SERVER_NAME'] . "/lgh/",
                 'dbhost' => 'localhost',
                 'dbuser' => 'biblioreader',
                 'dbpwd' => 'password',
