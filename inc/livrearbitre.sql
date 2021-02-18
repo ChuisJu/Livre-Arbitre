@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 18 fév. 2021 à 10:56
+-- Généré le : jeu. 18 fév. 2021 à 16:59
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -70,6 +70,13 @@ CREATE TABLE IF NOT EXISTS `date` (
   PRIMARY KEY (`dateEmpreint`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `date`
+--
+
+INSERT INTO `date` (`dateEmpreint`) VALUES
+('2021-02-15');
+
 -- --------------------------------------------------------
 
 --
@@ -115,6 +122,13 @@ CREATE TABLE IF NOT EXISTS `emprunt` (
   KEY `Emprunt_Date1_FK` (`dateEmpreint`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `emprunt`
+--
+
+INSERT INTO `emprunt` (`isbn`, `idUtilisateur`, `dateEmpreint`) VALUES
+('9782226319494', 2, '2021-02-15');
+
 -- --------------------------------------------------------
 
 --
@@ -123,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `emprunt` (
 
 DROP TABLE IF EXISTS `formulaire`;
 CREATE TABLE IF NOT EXISTS `formulaire` (
-  `idForm` int(11) NOT NULL AUTO_INCREMENT,
+  `idForm` int(255) NOT NULL AUTO_INCREMENT,
   `prenomForm` varchar(20) NOT NULL,
   `nomForm` varchar(20) NOT NULL,
   `objet` varchar(90) NOT NULL,
@@ -131,7 +145,15 @@ CREATE TABLE IF NOT EXISTS `formulaire` (
   `telephone` int(11) NOT NULL,
   `commentaire` varchar(255) NOT NULL,
   PRIMARY KEY (`idForm`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `formulaire`
+--
+
+INSERT INTO `formulaire` (`idForm`, `prenomForm`, `nomForm`, `objet`, `mail`, `telephone`, `commentaire`) VALUES
+(1, 'JU', 'dub', 'Oui', 'juju@gmail.com', 663558364, 'Bonjour ! C:'),
+(2, 'Médé', 'Rick', 'Aloha', 'médé@fmail.com', 621222352, 'Re');
 
 -- --------------------------------------------------------
 
@@ -151,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `genre` (
 --
 
 INSERT INTO `genre` (`idGenre`, `libelle`) VALUES
+(1, 'Biographie'),
 (2, 'Théâtre'),
 (3, 'Roman'),
 (4, 'Nouvelle'),
@@ -296,7 +319,15 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `numCarte` varchar(50) NOT NULL,
   `Admin` tinyint(1) NOT NULL,
   PRIMARY KEY (`idUtilisateur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`idUtilisateur`, `mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES
+(1, '1234', 'user', '01020304', 1),
+(2, 'LivreArbitre78', 'Dupont', '12345678', 0);
 
 --
 -- Contraintes pour les tables déchargées
