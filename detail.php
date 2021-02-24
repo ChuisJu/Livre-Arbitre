@@ -23,12 +23,14 @@
     <body>
 
         <?php
-        if(isset($_GET["isbn"])){
-            $id=$_GET["isbn"];
-          }
+        
         include 'inc/header.php';
         include 'inc/db_conn.php';
          
+         if(isset($_GET["isbn"])){
+            $id=$_GET["isbn"];
+          }
+          
         ?>
         <!-- MAIN CONTENT -->
 <?php
@@ -39,7 +41,8 @@ echo "<div class='book_grille'>";
     echo "<div align ='center' class='titre'><h1><b>".$book['titre']."</b></h1>";
     
     
-		
+		$num=$book['likeLivre'];
+		$num=$num+1;
 		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
@@ -56,7 +59,17 @@ echo "<div class='book_grille'>";
             <br>
             <div align="center">
 			<textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>
-            <button class="formulaire" type="submit">Commenter</button><img src="img/pouce.ico" height=10% width=10%>
+            <button class="formulaire" type="submit">Commenter</button>
+            <?php
+            echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$book['likeLivre'];
+            if(isset($_GET["like"])){
+            $like=$_GET["like"];
+            if($like==true)
+            {
+				$link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
+			}
+          }
+            ?>
             </div>
         </form></div>
     
