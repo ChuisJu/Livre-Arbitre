@@ -59,7 +59,7 @@
                     <td>Clients</td>
                     <td></td>
                     <td><a href="client.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="client.php?action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="client.php?action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                 </tbody>
             </table>
@@ -81,43 +81,43 @@
                     <td>Livres</td>
                     <td></td>
                     <td></td>
-                    <td><a href="infos.php?item=livres&action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="infos.php?item=livres&action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="livres.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
+                    <td><a href="livres.php?action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                   <tr>
                     <td>Auteurs</td>
                     <td></td>
                     <td></td>
-                    <td><a href="infos.php?item=auteurs&action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="infos.php?item=auteurs&action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="auteurs.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
+                    <td><a href="auteurs.php?action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                   <tr>
                     <td>Genres</td>
                     <td></td>
                     <td></td>
-                    <td><a href="infos.php?item=genres&action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="infos.php?item=genres&action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="genres.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
+                    <td><a href="genres.php?action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                   <tr>
                     <td>Langues</td>
                     <td></td>
                     <td></td>
-                    <td><a href="infos.php?item=langues&action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="infos.php?item=langues&action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="langues.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
+                    <td><a href="langues.php?action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                   <tr>
                     <td>Rôles</td>
                     <td></td>
                     <td></td>
-                    <td><a href="infos.php?item=roles&action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="infos.php?item=roles&action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="roles.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
+                    <td><a href="roles.php?&action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                   <tr>
                     <td>Editeurs</td>
                     <td></td>
                     <td></td>
-                    <td><a href="infos.php?item=editeurs&action=add">Ajouter <i class="fa fa-plus"></i></a></td>
-                    <td><a href="infos.php?item=editeurs&action=update">Modifier <i class="fa fa-pencil"></i></a></td>
+                    <td><a href="editeurs.php?action=add">Ajouter <i class="fa fa-plus"></i></a></td>
+                    <td><a href="editeurs.php?action=update&show">Modifier <i class="fa fa-pencil"></i></a></td>
                   </tr>
                 </tbody>
             </table>
@@ -129,24 +129,11 @@
 </html>
 
 <?php
+        } else{
+          echo "Vous n'êtes pas administrateur !\n Vous souhaitez vous connecter en tant qu'administrateur ? Déconnectez-vous et reconnectez-vous en tant qu'administrateur\n\n<a href='../disconnect.php'>Me déconnecter</a>";
         }
     } else{
 ?> 
-
-<?php
-
-  if(isset($_GET['action'])){
-    if($_GET['action'] == "add"){
-
-    }
-
-    if($_GET['action'] == "update"){
-      
-    }
-  }
-
-?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -251,6 +238,7 @@ if(isset($_POST['user_name'])){
                 $_SESSION['password'] = $_POST['password'];
                 $_SESSION['isAdmin'] = $isA['Admin'];
 
+                header('location: index.php');
               }
             }
           }
