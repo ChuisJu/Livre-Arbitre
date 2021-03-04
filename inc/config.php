@@ -2,8 +2,8 @@
 
 $CONFIG = array('root_path' => 'http://' . $_SERVER['SERVER_NAME'] . "/lgh/",
                 'dbhost' => 'localhost',
-                'dbuser' => 'root',
-                'dbpwd' => '',
+                'dbuser' => 'Biblioreader',
+                'dbpwd' => 'SuperRoot77',
                 'dbport' => '3306',
                 'dbname' => 'livrearbitre'
             );
