@@ -58,3 +58,19 @@
         <?php include 'inc/footer.php'; ?>
     </body>
 </html>
+
+<?php
+
+if(isset($_GET['disconnected'])){
+    echo "<script>alert('Déconnecté avec succès');</script>";
+}
+
+if(isset($_GET['error'])){
+    echo "<script>alert('Problème surevnu.');</script>";
+}
+
+if(isset($_GET['success'])){
+    echo "<script>alert('Formulaire envoyé avec succès');</script>";
+}
+
+?>

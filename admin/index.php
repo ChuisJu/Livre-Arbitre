@@ -5,9 +5,10 @@
 <?php
     session_start();
 
+    include '../inc/db_conn.php';
+
     if(isset($_SESSION['open'])){
-        if($_SESSION['open'] == 1){
-            
+        if($_SESSION['open'] == 1 && $_SESSION['isAdmin'] == 1){
 ?>
 
 <!DOCTYPE html>
@@ -128,6 +129,11 @@
 </html>
 
 <?php
+        }
+    } else{
+?> 
+
+<?php
 
   if(isset($_GET['action'])){
     if($_GET['action'] == "add"){
@@ -141,11 +147,8 @@
 
 ?>
 
-<?php
-        }
-    } else{
-?> 
-        <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -178,7 +181,7 @@
         <div class="main">
             <div class="container"><br><br><br>
                 <div class ="grille">
-        <div class="formulaire"><form method="post" action="login.php">
+        <div class="formulaire"><form method="post" action="index.php">
             <fieldset class="formulaire">
                 <fieldset class="formulaire">
                 <legend>Panel Administrateur</legend>
@@ -198,7 +201,7 @@
             </fieldset>
             <br>
             <div align="center">
-            <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
+              <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
             </div>
         </form></div></div>
         <br><br><br>
@@ -214,4 +217,47 @@
     }
 ?>
 
+<?php
 
+if(isset($_POST['user_name'])){
+  if(isset($_POST['password'])){
+    if(isset($_POST['submit'])){
+
+      $users = mysqli_query($link, "SELECT utilisateur FROM utilisateur");
+      $passwords = mysqli_query($link, "SELECT mdp FROM utilisateur");
+      $isAdmin = mysqli_query($link, "SELECT `Admin` FROM utilisateur");
+
+      while ($user = mysqli_fetch_array($users, MYSQLI_ASSOC)) {
+
+        if($user['utilisateur'] == $_POST['user_name']){
+
+          while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
+            if($password['password'] = $_POST['password']){
+
+              $username = $_POST['user_name'];
+              $password = $_POST['password'];
+
+              $isAdmin = mysqli_query($link, 'SELECT `Admin` FROM utilisateur WHERE utilisateur = "' . $username . '"');
+              $isA = mysqli_fetch_array($isAdmin, MYSQLI_ASSOC);
+
+              if($isA['Admin'] == 1){
+
+                $carteNum = mysqli_query($link, 'SELECT numCarte FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
+
+                $_SESSION['open'] = 1;
+                $_SESSION['numcarte'] = $carte['numCarte'];
+                $_SESSION['username'] = $_POST['user_name'];
+                $_SESSION['password'] = $_POST['password'];
+                $_SESSION['isAdmin'] = $isA['Admin'];
+
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+?>

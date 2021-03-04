@@ -14,6 +14,7 @@
             $password = $_SESSION['password'];
             $numcarte = $_SESSION['numcarte'];
 
+
             ?>
 
     <html lang="fr">
@@ -39,7 +40,7 @@
     </head>
     <body>
 
-    
+          
           
     </body>
 </html>
@@ -125,16 +126,19 @@
 
         $users = mysqli_query($link, "SELECT utilisateur FROM utilisateur");
         $passwords = mysqli_query($link, "SELECT mdp FROM utilisateur");
-
+        
         while ($user = mysqli_fetch_array($users, MYSQLI_ASSOC)) {
 
           if($user['utilisateur'] == $_POST['user_name']){
 
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
               if($password['password'] = $_POST['password']){
-
+                
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
+
+                $isAdmin = mysqli_query($link, 'SELECT `Admin` FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                $isA = mysqli_fetch_array($isAdmin, MYSQLI_ASSOC);
 
                 $carteNum = mysqli_query($link, "SELECT numCarte FROM utilisateur WHERE utilisateur = '" . $username . "'");
                 $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
@@ -143,14 +147,13 @@
                 $_SESSION['numcarte'] = $carte['numCarte'];
                 $_SESSION['username'] = $_POST['user_name'];
                 $_SESSION['password'] = $_POST['password'];
-                
-                echo "connected";
-                echo $_SESSION['numcarte'];
+
+                $_SESSION['isAdmin'] = $isA['Admin'];
+
               }
 
             }
           }
-
         }
       }
     }

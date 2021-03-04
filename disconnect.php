@@ -1,13 +1,19 @@
 <?php
 
+error_reporting(0);
+
 session_start();
 
-$_SESSION['open'] = "";
-$_SESSION['numcarte'] = "";
-$_SESSION['username'] = "";
-$_SESSION['password'] = "";
+if($_SESSION['open'] == 1){
+    $_SESSION['open'] = "";
+    $_SESSION['numcarte'] = "";
+    $_SESSION['username'] = "";
+    $_SESSION['password'] = "";
 
-echo "Vous avez été déconnecté avec succès !\n Vous allez être redirigé d'ici peu..";
-sleep(5);
-header("location: index.php");
+    session_destroy();
+
+} 
+
+header("location: index.php?disconnected");
+
 ?>
