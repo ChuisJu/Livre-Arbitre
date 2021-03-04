@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 04 mars 2021 à 13:17
+-- Généré le : jeu. 04 mars 2021 à 14:27
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `editeur` (
   `idEditeur` int(11) NOT NULL AUTO_INCREMENT,
   `libelleEditeur` varchar(50) NOT NULL,
   PRIMARY KEY (`idEditeur`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `editeur`
@@ -117,7 +117,8 @@ INSERT INTO `editeur` (`idEditeur`, `libelleEditeur`) VALUES
 (7, 'Pocket'),
 (8, 'Pocket Jeunesse'),
 (9, 'Nathan'),
-(10, 'PKJ');
+(10, 'PKJ'),
+(11, 'Gallimard');
 
 -- --------------------------------------------------------
 
@@ -159,14 +160,6 @@ CREATE TABLE IF NOT EXISTS `formulaire` (
   `commentaire` varchar(255) NOT NULL,
   PRIMARY KEY (`idForm`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `formulaire`
---
-
-INSERT INTO `formulaire` (`idForm`, `prenomForm`, `nomForm`, `objet`, `mail`, `telephone`, `commentaire`) VALUES
-(1, 'JU', 'dub', 'Oui', 'juju@gmail.com', 663558364, 'Bonjour ! C:'),
-(2, 'Médé', 'Rick', 'Aloha', 'médé@fmail.com', 621222352, 'Re');
 
 -- --------------------------------------------------------
 
@@ -233,7 +226,7 @@ CREATE TABLE IF NOT EXISTS `livre` (
   `annee` int(11) NOT NULL,
   `nbpages` int(11) NOT NULL,
   `resume` text NOT NULL,
-  `commentaireLivre` varchar(255) NOT NULL,
+  `commentaireLivre` varchar(255) DEFAULT NULL,
   `idLangue` int(11) NOT NULL,
   `idEditeur` int(11) NOT NULL,
   `idGenre` int(11) NOT NULL,
@@ -248,6 +241,7 @@ CREATE TABLE IF NOT EXISTS `livre` (
 --
 
 INSERT INTO `livre` (`isbn`, `titre`, `annee`, `nbpages`, `resume`, `commentaireLivre`, `idLangue`, `idEditeur`, `idGenre`) VALUES
+('9782070662159', 'EndGame : L\'appel', 2014, 545, 'ENDGAME EST UNE RÉALITÉ. ENDGAME A COMMENCÉ.Douze jeunes élus, issus de peuples anciens. L\'humanité tout entière descend de leurs lignées, choisies il y a des milliers d\'années.Ils sont héritiers de la Terre.Pour la sauver, ils doivent se battre, résoudre la Grande Énigme.L\'un d\'eux doit y parvenir, ou bien nous sommes tous perdus. Ils ne possèdent pas de pouvoirs magiques. Ils ne sont pas immortels. Traîtrise, courage, amitié, chacun suivra son propre chemin, selon sa personnalité, ses intuitions et ses traditions.Il n\'y aura qu\'un seul vainqueur.', NULL, 1, 11, 3),
 ('9782226186072', 'Percy Jackson: Tome 1 Le Voleur de Foudre\r\n', 2008, 424, 'Etre un demi-dieu, ça peut être mortel... Attaqué par sa prof de maths qui est en fait un monstre mythologique, injustement renvoyé de son collège et poursuivi par un minotaure enragé, Percy Jackson se retrouve en plus accusé d\'avoir dérobé l\'éclair de Zeus ! Pour rester en vie, s\'innocenter et découvrir l\'identité du dieu qui l\'a engendré, il devra accomplir sa quête au prix de mille dangers.', '', 1, 5, 3),
 ('9782226319494', 'Un(e)Secte', 2019, 454, 'Et si tous les insectes du monde se mettaient soudainement à communiquer entre eux ? A s\'organiser ? Nous ne surviverons pas plus de queslques jours. Entre un crime spectaculaire et la disparition inexpliquée d\'une jeune femme, les chemins du detective Atticus Gore et de la privée Kat Kordell vont s\'entremêler. Et les confronter à une vérité effrayante. Des montagnes de Los Angeles aux bas-fonds de New York, un thriller implacable et documenté qui va vous démanger.', '', 2, 5, 3),
 ('9782266182690', 'Hunger Games Tome 1', 2009, 400, 'Le vainqueur deviendra riche et célèbre. Les autres mourront... Dans un futur sombre, sur les ruines des États-Unis, un jeu télévisé est créé pour contrôler le peuple par la terreur. Douze garçons et douze filles tirés au sort participent à cette sinistre téléréalité, que tout le monde est forcé de regarder en direct. Une seule règle dans l\'arène: survivre, à tout prix.', '', 1, 8, 3),
@@ -329,9 +323,9 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `mdp` varchar(50) NOT NULL,
   `utilisateur` varchar(50) NOT NULL,
   `numCarte` varchar(50) NOT NULL,
-  `Admin` tinyint(1) NOT NULL,
+  `Admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idUtilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -339,7 +333,8 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 
 INSERT INTO `utilisateur` (`idUtilisateur`, `mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES
 (1, '1234', 'user', '01020304', 1),
-(2, 'LivreArbitre78', 'Dupont', '12345678', 0);
+(2, 'LivreArbitre78', 'Dupont', '12345678', 0),
+(3, 'motdepasse', 'Michel', '1', 0);
 
 --
 -- Contraintes pour les tables déchargées
