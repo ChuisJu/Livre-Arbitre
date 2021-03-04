@@ -28,7 +28,8 @@
       <link rel="stylesheet" href="../css/header.css">
       <link rel="stylesheet" href="../css/footer.css">
       <link rel="stylesheet" href="../css/login.css">
-      <link rel="stylesheet" href="../css/gridn.css">
+      <link rel="stylesheet" href="../css/book_grid.css">
+      <link rel="stylesheet" href="../css/index.css">
 
       <!-- SCRIPT -->
 
@@ -39,9 +40,16 @@
       <title></title>
     </head>
     <body>
-
-          
-          
+      <?php
+        include '../inc/header.php';
+        include '../inc/db_conn.php';
+      ?>
+      <div class="main">
+        <a> Bonjour <?php echo "$user !"?></a></br>
+        <a> Votre numéro de carte est : <?php echo"$numcarte" ?> </a></br>
+        <a href="../disconnect.php"> se déconnecter </a>
+      </div>
+      <?php include '../inc/footer.php'; ?>
     </body>
 </html>
 
@@ -72,17 +80,6 @@
         <title></title>
     </head>
     <body>
-      <?php
-        include 'inc/header.php';
-        include 'inc/db_conn.php';
-      ?>
-      <div class="main">
-      <a> Bonjour <?php echo "$user"?></a>
-      <a href="../disconnect.php"> se déconnecter </a>
-      <a> Votre numéroe de carte est : <?php echo"$numcarte" ?> </a>
-      </div>
-    </body>
-</html>
 
         <?php
         include '../inc/header.php';
@@ -144,7 +141,7 @@
 
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
               if($password['password'] = $_POST['password']){
-                
+
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
 
