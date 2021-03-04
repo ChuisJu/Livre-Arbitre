@@ -1,5 +1,7 @@
 <?php
 
+    session_start();
+
     include 'inc/config.php';
     include 'inc/db_conn.php'; 
 
@@ -64,10 +66,7 @@
                             if(isset($_POST['commentaire'])){
                                 if(preg_match("#^0[1-68]([-. ]?[0-9]{2}){4}$#", $_POST['telephone'])){
 
-                                    $sql = "INSERT INTO formulaire (prenomForm, nomForm, objet, mail, telephone, commentaire) VALUES (?,?,?,?,?,?)";
-                                    $query = $link->prepare($sql);
-                                    $query->execute([$_POST['prenom'], $_POST['nom'], $_POST['objet'], $_POST['mail'], $_POST['telephone'], $_POST['commentaire']]);
-                                    echo "<script>alert('Nous avons bien reçu votre formulaire !');</script>";
+                                    $link->query('INSERT INTO formulaire (prenomForm, nomForm, objet, mail, telephone, commentaire) VALUES ("' . $_POST['prenom'] .'" , "' . $_POST['nom'] . '", "' . $_POST['objet'] . '", "' . $_POST['mail'] . '", "' . $_POST['telephone'] . '", "' . $_POST['commentaire'] . '")');
 
                                     header("Location: index.php?success");
                                 }

@@ -16,7 +16,7 @@
                 </div>
                 <form class="form-inline ml-auto">
                 <div class="navbar-nav">
-                    <a href='<?php echo $CONFIG['root_path'] . "login.php" ?>' class="nav-item nav-link">Espace client</a>
+                    <a href='<?php echo $CONFIG['root_path'] . "espace/" ?>' class="nav-item nav-link">Espace client</a>
                 </div>
                 </form>
             </div>

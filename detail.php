@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -58,17 +60,25 @@ echo "<div class='book_grille'>";
             
             <br>
             <div align="center">
-			<textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>
-            <button class="formulaire" type="submit">Commenter</button>
+			
             <?php
-            echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$book['likeLivre'];
-            if(isset($_GET["like"])){
-            $like=$_GET["like"];
-            if($like==true)
-            {
-				$link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
-			}
-          }
+            if(isset($_SESSION['open'])){
+                if($_SESSION['open'] == 1){
+                    ?>
+                    <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>
+                    <button class="formulaire" type="submit">Commenter</button>
+                    <?php
+                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$book['likeLivre'];
+                    if(isset($_GET["like"])){
+
+                        $like = $_GET["like"];
+
+                        if($like==true){
+			        	        $link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
+			                }
+                    }
+                }
+            }
             ?>
             </div>
         </form></div>
