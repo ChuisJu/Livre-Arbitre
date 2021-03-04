@@ -72,6 +72,17 @@
         <title></title>
     </head>
     <body>
+      <?php
+        include 'inc/header.php';
+        include 'inc/db_conn.php';
+      ?>
+      <div class="main">
+      <a> Bonjour <?php echo "$user"?></a>
+      <a href="../disconnect.php"> se déconnecter </a>
+      <a> Votre numéroe de carte est : <?php echo"$numcarte" ?> </a>
+      </div>
+    </body>
+</html>
 
         <?php
         include '../inc/header.php';
