@@ -1,6 +1,3 @@
-
-
-
 <?php
 
     include '../inc/db_conn.php';
