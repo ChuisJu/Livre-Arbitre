@@ -48,7 +48,11 @@ echo "<div class='book_grille'>";
 		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
-		echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
+		if($book['idLangue']!=2)
+		{
+			$traducteur = $link->query("SELECT * FROM livre JOIN auteur ON livre.isbn = auteur.isbn JOIN personne ON personne.idPersonne=auteur.idPersonne JOIN roles ON auteur.idRole = roles.idRole WHERE livre.isbn=$id AND roles.role='Traducteur'")->fetch_assoc();
+			echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
+		}
 		echo "<p>Editeur: ".$book['libelleEditeur']."</p>";
 		echo "<p>Date de parution: ".$book['annee']."</p>";
 		echo "<p>Nombres de pages:".$book['nbpages']."</p>";
@@ -68,17 +72,42 @@ echo "<div class='book_grille'>";
                     <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>
                     <button class="formulaire" type="submit">Commenter</button>
                     <?php
-                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$book['likeLivre'];
                     if(isset($_GET["like"])){
-
+						//############################
+						//$iduser=1;
+						//############################
+						$jaime= $link->query("SELECT * FROM aime WHERE ISBN=$id AND idUtilisateur$iduser")->fetch_assoc();
                         $like = $_GET["like"];
-
-                        if($like==true){
+                        $pouce="pouce_blanc.ico";
+                        if($jaime['Aime']!=1)
+                        {
+								$pouce="pouce.ico";
+								if($like==true){
+									$link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
+									if($jaime['Aime']==0)
+									{
+										$link->query("UPDATE `aime` SET `Aime` = 1 WHERE `isbn` = '$id' AND idUtilisateur='$iduser';");
+									}
+									
+									else
+									{
+										$link->query("INSERT INTO aime VALUES ('$id', 1, '$iduser')");
+									}
+								}
+						}
+						else
+						{
+							if($like==true){
+								$num=$num-2;
 			        	        $link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
-			                }
+			        	        $link->query("UPDATE `aime` SET `Aime` = 0 WHERE `isbn` = '$id' AND idUtilisateur='$iduser';");
+								}
+						}
+                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/'.$pouce.'" height=10% width=10%></a>'.$book['likeLivre'];
                     }
                 }
             }
+            //header('Location:');
             ?>
             </div>
         </form></div>
@@ -102,4 +131,3 @@ echo "<div class='book_grille'>";
         include 'inc/footer.php'; ?>
     </body>
 </html>
-
