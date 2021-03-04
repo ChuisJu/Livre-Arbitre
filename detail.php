@@ -48,11 +48,7 @@ echo "<div class='book_grille'>";
 		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
-		if($book['idLangue']!=2)
-		{
-			$traducteur = $link->query("SELECT * FROM livre JOIN auteur ON livre.isbn = auteur.isbn JOIN personne ON personne.idPersonne=auteur.idPersonne JOIN roles ON auteur.idRole = roles.idRole WHERE livre.isbn=$id AND roles.role='Traducteur'")->fetch_assoc();
-			echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
-		}
+		echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
 		echo "<p>Editeur: ".$book['libelleEditeur']."</p>";
 		echo "<p>Date de parution: ".$book['annee']."</p>";
 		echo "<p>Nombres de pages:".$book['nbpages']."</p>";

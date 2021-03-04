@@ -6,10 +6,45 @@
     include '../inc/db_conn.php';
 
     session_start();
-
+    
     if(isset($_SESSION['open'])){
         if($_SESSION['open'] == 1){
-            
+
+            $user = $_SESSION['username'];
+            $password = $_SESSION['password'];
+            $numcarte = $_SESSION['numcarte'];
+
+            ?>
+
+    <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="../css/header.css">
+      <link rel="stylesheet" href="../css/footer.css">
+      <link rel="stylesheet" href="../css/login.css">
+      <link rel="stylesheet" href="../css/gridn.css">
+
+      <!-- SCRIPT -->
+
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+      <title></title>
+    </head>
+    <body>
+
+    
+          
+    </body>
+</html>
+
+            <?php
         }
     } else{
 ?> 
@@ -49,7 +84,7 @@
                     <div class="formulaire"><form method="post" action="index.php">
                         <fieldset class="formulaire">
                         <fieldset class="formulaire">
-                <legend>Vos idenfiants</legend>
+                            <legend>Vos idenfiants</legend>
                 
                    
                     <label for="name">Nom d'utilisateur :</label><br>
@@ -66,7 +101,7 @@
             </fieldset>
             <br>
             <div align="center">
-            <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
+                <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
             </div>
         </form></div></div>
         <br><br><br>
@@ -88,26 +123,33 @@
     if(isset($_POST['password'])){
       if(isset($_POST['submit'])){
 
-        $users = $link->query("SELECT utilisateur FROM utilisateur")->fetchAll();
-        $passwords = $link->query("SELECT mdp FROM utilisateur")->fetchAll();
+        $users = mysqli_query($link, "SELECT utilisateur FROM utilisateur");
+        $passwords = mysqli_query($link, "SELECT mdp FROM utilisateur");
 
-        foreach ($users as $user) {
-          if($user == $_POST['user_name']){
-            foreach ($passwords as $password) {
-              if($password = $_POST['password']){
+        while ($user = mysqli_fetch_array($users, MYSQLI_ASSOC)) {
+
+          if($user['utilisateur'] == $_POST['user_name']){
+
+            while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
+              if($password['password'] = $_POST['password']){
 
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
-                $carteNum = $link->query("SELECT numCarte FROM utilisateur WHERE utilisateur = " . $username)->fetchAll();
+
+                $carteNum = mysqli_query($link, "SELECT numCarte FROM utilisateur WHERE utilisateur = '" . $username . "'");
+                $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
 
                 $_SESSION['open'] = 1;
-                $_SESSION['numcarte'] = $carteNum;
+                $_SESSION['numcarte'] = $carte['numCarte'];
+                $_SESSION['username'] = $_POST['user_name'];
+                $_SESSION['password'] = $_POST['password'];
                 
+                echo "connected";
+                echo $_SESSION['numcarte'];
               }
 
             }
           }
-
 
         }
       }
