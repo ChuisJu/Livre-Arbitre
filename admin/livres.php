@@ -57,10 +57,10 @@ if($_GET['action'] == "add"){
                         <input type="text" id="titre" name="titre" autofocus required>
                         <br>
                         <label for="name">Annee (Format 2000) :</label><br>
-                        <input type="password" id="annee" name="annee" required>
+                        <input type="text" id="annee" name="annee" required>
                         <br>
                         <label for="name">Nombre de pages :</label><br>
-                        <input type="nbpages" id="nbpages" name="nbpages" required>
+                        <input type="text" id="nbpages" name="nbpages" required>
                         <br>
                         <label for="name">Résumé du livre :</label><br>
                         <textarea name="resume"></textarea>
@@ -85,11 +85,11 @@ if($_GET['action'] == "add"){
 <?php
             echo'</select>
             <br>
-            <label for="name">Editeur du livre :</label><br>
+            <label for="name">Genre du livre :</label><br>
             <select name="genre">';
 
             while ($g = mysqli_fetch_array($genr, MYSQLI_ASSOC)) {?>
-                <option value=<?php echo $e['idGenre'] ?>><?php echo $g['libelle'] ?></option>
+                <option value=<?php echo $g['idGenre'] ?>><?php echo $g['libelle'] ?></option>
                 
                 
 
@@ -124,10 +124,10 @@ if($_GET['action'] == "add"){
                     if(isset($_POST['nbpages'])){
                         if(isset($_POST['resume'])){
 
-                            $sql = 'INSERT INTO utilisateur (`isbn`, `utilisateur`, `numCarte`, `Admin`) VALUES ("' . $_POST['password'] . '", "' . $_POST['name'] . '", "' . $_POST['id'] . '", "0")';
+                            $sql = 'INSERT INTO livre (`isbn`, `titre`, `annee`, `nbpages`, `resume`, `idLangue`, `idEditeur`, `idGenre`) VALUES ("' . $_POST['isbn'] . '", "' . $_POST['titre'] . '", "' . $_POST['annee'] . '", "' . $_POST['nbpages'] . '", "' . $_POST['resume'] . '", "' . $_POST['langue'] . '", "' . $_POST['editeur'] . '", "' . $_POST['genre'] . '")';
                             $link->query($sql);
 
-                            echo "<script>alert('Client inséré avec succès !');</script>";
+                            echo "<script>alert('Livre inséré avec succès !');</script>";
 
                         }
                     }
@@ -140,7 +140,7 @@ if($_GET['action'] == "add"){
 if($_GET['action'] == "update"){
 
     if(isset($_GET['show'])){
-        $row = mysqli_query($link, 'SELECT * FROM utilisateur');
+        $row = mysqli_query($link, 'SELECT * FROM livre');
         
         echo 
         '<!DOCTYPE html>
@@ -187,37 +187,74 @@ if($_GET['action'] == "update"){
             <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">Identifiant de l'utilisateur</th>
-                    <th scope="col">Nom d'utilisateur</th>
-                    <th scope="col">Mot de passe</th>
-                    <th scope="col">Numéro de carte</th>
-                    <th scope="col">Admin</th>
+                    <th scope="col">ISBN du livre </th>
+                    <th scope="col">Titre du livre</th>
+                    <th scope="col">Année de sortie</th>
+                    <th scope="col">Nombre de pages</th>
+                    <th scope="col">Résumé (limité à 100 caractères)</th>
+                    <th scope="col">Langue</th>
+                    <th scope="col">Editeur</th>
+                    <th scope="col">Genre</th>
                     <th scope="col">Modifier</th>
                     <th scope="col">Supprimer</th>
                   </tr>
                 </thead>
                 <tbody>
                 <?php
-                    while ($user = mysqli_fetch_array($row, MYSQLI_ASSOC)) {
+                    while ($livre = mysqli_fetch_array($row, MYSQLI_ASSOC)) {
                 ?>
                   <tr>
-                    <td><?php echo $user['idUtilisateur'] ?></td>
-                    <td><?php echo $user['utilisateur'] ?></td>
-                    <td><?php echo $user['mdp'] ?></td>
-                    <td><?php echo $user['numCarte'] ?></td>
+                    <td><?php echo $livre['isbn']; ?></td>
+                    <td><?php echo $livre['titre']; ?></td>
+                    <td><?php echo $livre['annee']; ?></td>
+                    <td><?php echo $livre['nbpages']; ?></td>
+                    <td><?php echo substr($livre['resume'], 0, 25) . '...'; ?></td>
                     <td>
                     <?php 
 
-                    if($user['Admin'] == 1){
-                        echo "Oui";
-                    } else{
-                        echo "Non";
-                    }
+                    // Langue
+
+                    $idLangue = $livre['idLangue'];
+
+
+                    $row2 = mysqli_query($link, 'SELECT * FROM langue WHERE idLangue = "' . $idLangue . '"');
+                    $lang = mysqli_fetch_array($row2, MYSQLI_ASSOC);
+
+                    echo $lang['language'];
+                    ?>
+                    </td>
+                    <td>
+                    <?php 
+
+                    // Editeur
+
+                    $idEditeur = $livre['idLangue'];
+
+
+                    $row3 = mysqli_query($link, 'SELECT * FROM editeur WHERE idEditeur = "' . $idEditeur . '"');
+                    $edit = mysqli_fetch_array($row3, MYSQLI_ASSOC);
+
+                    echo $edit['libelleEditeur'];
 
                     ?>
                     </td>
-                    <td><?php echo '<a href="client.php?action=update&id=' . $user['idUtilisateur'] . '">Modifier <i class="fa fa-pencil"></i></a>'; ?></td>
-                    <td><?php echo '<a href="client.php?action=delete&id=' . $user['idUtilisateur'] . '">Supprimer <i class="fa fa-trash"></i></a>'; ?></td>
+                    <td>
+                    <?php 
+
+                    // Genre
+
+                    $idGenre = $livre['idGenre'];
+
+
+                    $row4 = mysqli_query($link, 'SELECT * FROM genre WHERE idGenre = "' . $idGenre . '"');
+                    $genr = mysqli_fetch_array($row4, MYSQLI_ASSOC);
+
+                    echo $genr['libelle'];
+
+                    ?>
+                    </td>
+                    <td><?php echo '<a href="livres.php?action=update&isbn=' . $livre['isbn'] . '">Modifier <i class="fa fa-pencil"></i></a>'; ?></td>
+                    <td><?php echo '<a href="livres.php?action=delete&isbn=' . $livre['isbn'] . '">Supprimer <i class="fa fa-trash"></i></a>'; ?></td>
                   </tr>
 
                   <?php
@@ -242,34 +279,27 @@ if($_GET['action'] == "update"){
 }
 
 if($_GET['action'] == "delete"){
-    if(isset($_GET['id'])){
+    if(isset($_GET['isbn'])){
         
-        $intid = (int)$_GET['id'];
+        $intid = (int)$_GET['isbn'];
         
-        $link->query('DELETE FROM utilisateur WHERE idUtilisateur = ' . $intid);
+        $link->query('DELETE FROM livre WHERE isbn = ' . $intid);
             
         
-        echo "<script>alert('Client supprimé avec succès !');</script>";
+        echo "<script>alert('Livre supprimé avec succès !');</script>";
 
-        header('location: client.php?action=update&show');
+        header('location: livres.php?action=update&show');
     }
 }
 
 
 if($_GET['action'] == "update"){
-    if(isset($_GET['id'])){
+    if(isset($_GET['isbn'])){
         
-        $intid = (int)$_GET['id'];
+        $intid = (int)$_GET['isbn'];
         
-        $row2 = mysqli_query($link, 'SELECT * FROM utilisateur WHERE idUtilisateur = ' . $intid);
-        $user = mysqli_fetch_array($row2, MYSQLI_ASSOC);
-
-
-        if($user['Admin'] == 1){
-            $perms = 'admin';
-        } else{
-            $perms = 'client';
-        }
+        $row2 = mysqli_query($link, 'SELECT * FROM livre WHERE isbn = ' . $intid);
+        $livre = mysqli_fetch_array($row2, MYSQLI_ASSOC);
 
         echo
         '<!DOCTYPE html>
@@ -306,21 +336,66 @@ if($_GET['action'] == "update"){
                 <div class="main">
                     <div class="container"><br><br><br>
                         <div class ="grille">
-                <div class="formulaire"><form method="post" action="client.php?action=update&id=' . $intid . '">
+                <div class="formulaire"><form method="post" action="livres.php?action=update&isbn=' . $intid . '">
                     <fieldset class="formulaire">
                         <fieldset class="formulaire">
-                        <legend>Modifier un client</legend>
-                            <label for="name">Nom d\'utilisateur :</label><br>
-                            <input type="text" id="name" name="username" value="' . $user['utilisateur'] . '" autofocus required>
+                        <legend>Modifier un livre</legend>
+                            <label for="name">ISBN :</label><br>
+                            <input type="text" id="isbn" name="isbn" value="' . $livre['isbn'] . '" autofocus required>
                             <br>
-                            <label for="name">Identifiant de la carte bibliothèque :</label><br>
-                            <input type="text" id="id" name="id" value="' . $user['numCarte'] . '" autofocus required>
+                            <label for="name">Titre :</label><br>
+                            <input type="text" id="id" name="id" value="' . $livre['titre'] . '" autofocus required>
                             <br>
-                            <label for="name">Mot de passe :</label><br>
-                            <input type="text" id="password" name="password" value="' . $user['mdp'] . '" required>
+                            <label for="name">Année :</label><br>
+                            <input type="text" id="annee" name="annee" value="' . $livre['annee'] . '" required>
                             <br>
-                            <label for="name">Permissions ("admin" ou "client") :</label><br>
-                            <input type="permissions" id="permissions" name="permissions" value="' . $perms . '" required>
+                            <label for="name">Nombre de pages :</label><br>
+                            <input type="text" id="nbpages" name="nbpages" value="' . $livre['nbpages'] . '" required>
+                            <br>
+                            <label for="name">Résumé :</label><br>
+                            <textarea id="nbpages" name="nbpages">' . $livre['resume'] . '</textarea>
+                            <br>
+                            <label for="name">Langue :</label><br>
+                            <select name="langue">
+';
+$lang = mysqli_query($link, 'SELECT * FROM langue');
+$i = 1;
+while ($l = mysqli_fetch_array($lang, MYSQLI_ASSOC)) {?>
+    <option value=<?php echo $l['idLangue'] ?> <?php if($i == $livre['idLangue']){echo "selected";} $i++; ?>><?php echo $l['language'] ?></option>
+
+<?php } ?>
+
+<?php
+                        echo '
+                            </select>
+                            <br>
+                            <label for="name">Editeur :</label><br>
+                            <select name="editeur">
+';
+$edit = mysqli_query($link, 'SELECT * FROM editeur');
+$i = 1;
+while ($e = mysqli_fetch_array($edit, MYSQLI_ASSOC)) {?>
+    <option value=<?php echo $e['idEditeur'] ?> <?php if($i == $livre['idEditeur']){echo "selected";} $i++; ?>><?php echo $e['libelleEditeur'] ?></option>
+
+<?php } ?>
+
+<?php
+                        echo '
+                            </select>
+                            <br>
+                            <label for="name">Genre :</label><br>
+                            <select name="genre">
+';
+$genr = mysqli_query($link, 'SELECT * FROM genre');
+$i = 1;
+while ($g = mysqli_fetch_array($genr, MYSQLI_ASSOC)) {?>
+    <option value=<?php echo $g['idGenre'] ?> <?php if($i == $livre['idGenre']){echo "selected";} $i++; ?>><?php echo $g['libelle'] ?></option>
+
+<?php } ?>
+
+<?php
+                        echo '
+                            </select>
                             <br>
                     </fieldset>
                     <br>
@@ -342,24 +417,26 @@ if($_GET['action'] == "update"){
             </body>
         </html>';
 
+        echo $_POST['editeur'];
         if(isset($_POST['submit'])){
-            if(isset($_POST['username'])){
-                if(isset($_POST['id'])){
-                    if(isset($_POST['password'])){ 
-                        if(isset($_POST['permissions'])){ 
-                            if($_POST['permissions'] == 'admin'){
-                                $perm = 1;
-                            } elseif($_POST['permissions'] == 'client'){
-                                $perm = 0;
-                            } else{
-                                die('Mauvaise saisie ("admin" ou "client"');
-                            }
-                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", numCarte = "' . $_POST['id'] . '", mdp = "' . $_POST['password'] . '", Admin = ' . $perm . ' WHERE idUtilisateur = ' . $intid;
-                            $link->query($sql);
-                        
-                            echo "<script>alert('Client modifié avec succès !');</script>";
+            if(isset($_POST['isbn'])){
+                if(isset($_POST['titre'])){
+                    if(isset($_POST['annee'])){
+                        if(isset($_POST['nbpages'])){
+                            if(isset($_POST['resume'])){
+                                if(isset($_POST['langue'])){
+                                    if(isset($_POST['editeur'])){
+                                        if(isset($_POST['genre'])){
 
-                        }
+                                            $sql = 'UPDATE livre SET isbn = "' . $_POST['isbn'] . '", titre = "' . $_POST['titre'] . '", annee = "' . $_POST['annee'] . '", nbpages = "' . $_POST['nbpages']. '", resume = "' . $_POST['resume']. '", idLangue = "' . $_POST['langue']. '", idEditeur = "' . $_POST['editeur'].  '" WHERE isbn = ' . $intid;
+                                            $link->query($sql);
+
+                                            echo "<script>alert('Livre modifié avec succès !');</script>";
+                                        }
+                                    }
+                                }
+                            }
+                        }   
                     }
                 }
             }
