@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php 
+session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -38,50 +39,84 @@
 <?php
 
 $book = $link->query("SELECT * FROM livre JOIN auteur ON livre.isbn = auteur.isbn JOIN personne ON personne.idPersonne=auteur.idPersonne JOIN roles ON auteur.idRole = roles.idRole JOIN editeur ON editeur.idEditeur = livre.idEditeur WHERE livre.isbn=$id AND roles.role='Ecrivain'")->fetch_assoc();
+$L = $link->query("SELECT COUNT(*) AS nblike FROM aime WHERE ISBN=$id")->fetch_assoc();
 $traducteur = $link->query("SELECT * FROM livre JOIN auteur ON livre.isbn = auteur.isbn JOIN personne ON personne.idPersonne=auteur.idPersonne JOIN roles ON auteur.idRole = roles.idRole WHERE livre.isbn=$id AND roles.role='Traducteur'")->fetch_assoc();
 echo "<div class='book_grille'>";
     echo "<div align ='center' class='titre'><h1><b>".$book['titre']."</b></h1>";
     
     
-		$num=$book['Aime'];
-		$num=$num+1;
+		$num=$L['nblike'];
 		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
-		echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
+		if($book['idLangue']!=2)
+		{
+			$traducteur = $link->query("SELECT * FROM livre JOIN auteur ON livre.isbn = auteur.isbn JOIN personne ON personne.idPersonne=auteur.idPersonne JOIN roles ON auteur.idRole = roles.idRole WHERE livre.isbn=$id AND roles.role='Traducteur'")->fetch_assoc();
+			echo "<p>Traducteur: ".$traducteur['prenom']." ".$traducteur['nom']."</p>";
+		}
 		echo "<p>Editeur: ".$book['libelleEditeur']."</p>";
 		echo "<p>Date de parution: ".$book['annee']."</p>";
 		echo "<p>Nombres de pages:".$book['nbpages']."</p>";
 		echo "<p>Numéro isbn: ".$id."</p>";
 		echo "<p>Résumé:".$book['resume']."</p>";
-		?>
+		
     
+    echo '<div class="formulaire"><form method="post" action="detail.php?isbn='.$id.'">';
+    ?>
             
-            <div class="formulaire"><form method="post" action="detail.php">
             <br>
             <div align="center">
 			
             <?php
-
-            $_SESSION['open'] = 1;
-
+            //############################
+            $_SESSION['open'] = 1; 
+			session_start();
+			$iduser=1;
+			//############################
             if(isset($_SESSION['open'])){
                 if($_SESSION['open'] == 1){
-                    ?>
+					//############################
+					//$user=$link->query("SELECT * FROM utilisateur WHERE utilisateur=".$_SESSION['username'])->fetch_assoc();
+					//$iduser=$user['idUtilisateur'];
+					//############################
+					?>
                     <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>
                     <button class="formulaire" type="submit">Commenter</button>
                     <?php
-                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$book['likeLivre'];
-                    if(isset($_GET["like"])){
-
+                    if(isset($_GET["like"]))
+                    {
+						$jaime= $link->query("SELECT * FROM aime WHERE ISBN=$id AND idUtilisateur=$iduser")->fetch_assoc();
                         $like = $_GET["like"];
-
-                        if($like==true){
-			        	        $link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
-			                }
+                        if((mysqli_num_rows($jaime) > 0))
+                        {
+								if($like==true)
+								{
+										$num=$num+1;
+										$link->query("INSERT INTO aime VALUES ($id, 1, $iduser)");
+								}
+						}
+						else
+						{
+							if($like==true)
+							{
+								if($jaime['Aime']==0)
+								{
+									$num=$num+1;
+									$link->query("UPDATE aime SET Aime = 1 WHERE isbn = $id AND idUtilisateur=$iduser;");
+								}
+								else
+								{
+									$num=$num-1;
+									//$link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
+									$link->query("UPDATE `aime` SET `Aime` = 0 WHERE `isbn` = '$id' AND idUtilisateur='$iduser';");
+								}
+							}
+						}
                     }
+                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$num;
                 }
             }
+            //header('Location:');
             ?>
             </div>
         </form></div>
