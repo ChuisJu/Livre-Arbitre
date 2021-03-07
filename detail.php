@@ -40,6 +40,8 @@ session_start(); ?>
 			$rendu =date('Y-m-d', strtotime($date. ' + 15 days'));
 			$link->query('INSERT INTO date VALUES ("'.$date.'")');
 			$link->query('INSERT INTO date VALUES ("'.$rendu.'")');
+			$utilisateur=link->query("SELECT * FROM utilisateurs WHERE utilisateur=$_Session[‘username’]")->fetch_assoc();
+			$iduser=$utilisateur['idUtilisateur'];
 			//$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'")');
 			if (!$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu,Prolongation) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'",0)')) {
 				printf("Message d'erreur : %s\n", $link->error);
