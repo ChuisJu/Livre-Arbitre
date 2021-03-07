@@ -344,7 +344,7 @@ if($_GET['action'] == "update"){
                             <input type="text" id="isbn" name="isbn" value="' . $livre['isbn'] . '" autofocus required>
                             <br>
                             <label for="name">Titre :</label><br>
-                            <input type="text" id="id" name="id" value="' . $livre['titre'] . '" autofocus required>
+                            <input type="text" id="titre" name="titre" value="' . $livre['titre'] . '" autofocus required>
                             <br>
                             <label for="name">Année :</label><br>
                             <input type="text" id="annee" name="annee" value="' . $livre['annee'] . '" required>
@@ -353,7 +353,7 @@ if($_GET['action'] == "update"){
                             <input type="text" id="nbpages" name="nbpages" value="' . $livre['nbpages'] . '" required>
                             <br>
                             <label for="name">Résumé :</label><br>
-                            <textarea id="nbpages" name="nbpages">' . $livre['resume'] . '</textarea>
+                            <textarea id="resume" name="resume">' . $livre['resume'] . '</textarea>
                             <br>
                             <label for="name">Langue :</label><br>
                             <select name="langue">
@@ -428,10 +428,11 @@ while ($g = mysqli_fetch_array($genr, MYSQLI_ASSOC)) {?>
                                     if(isset($_POST['editeur'])){
                                         if(isset($_POST['genre'])){
 
-                                            $sql = 'UPDATE livre SET isbn = "' . $_POST['isbn'] . '", titre = "' . $_POST['titre'] . '", annee = "' . $_POST['annee'] . '", nbpages = "' . $_POST['nbpages']. '", resume = "' . $_POST['resume']. '", idLangue = "' . $_POST['langue']. '", idEditeur = "' . $_POST['editeur'].  '" WHERE isbn = ' . $intid;
+                                            $sql = 'UPDATE livre SET isbn = "' . $_POST['isbn'] . '", titre = "' . $_POST['titre'] . '", annee = "' . $_POST['annee'] . '", nbpages = "' . $_POST['nbpages']. '", resume = "' . $_POST['resume']. '", idLangue = "' . $_POST['langue']. '", idEditeur = "' . $_POST['editeur'].  '" WHERE isbn = "' . $intid . '"';
                                             $link->query($sql);
 
                                             echo "<script>alert('Livre modifié avec succès !');</script>";
+                                            
                                         }
                                     }
                                 }
