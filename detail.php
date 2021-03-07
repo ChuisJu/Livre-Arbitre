@@ -38,11 +38,12 @@ session_start(); ?>
             date_default_timezone_set('Europe/Paris');
 			$date = date('Y-m-d');
 			$rendu =date('Y-m-d', strtotime($date. ' + 15 days'));
-			echo $date;
-			//echo$rendu;
 			$link->query('INSERT INTO date VALUES ("'.$date.'")');
 			$link->query('INSERT INTO date VALUES ("'.$rendu.'")');
-			$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'")');
+			//$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'")');
+			if (!$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu,Prolongation) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'",0)')) {
+				printf("Message d'erreur : %s\n", $link->error);
+			}
 			//            INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES (9782226186072,1,"2021-03-07","2021-03-22")
           }
           
@@ -133,7 +134,7 @@ echo "<div class='book_grille'>";
             </div>
         <br></form></div>
         <?php
-        echo '<form action="detail.php?isbn=$id&emprunt=1" method="POST">';
+        echo '<form action="detail.php?isbn='.$id.'&emprunt=1" method="POST">';
         ?>
                 <button class="emprunt" type="submit">Emprunter</button>
             </form>
