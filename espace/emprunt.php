@@ -83,11 +83,11 @@
         <?php
          if(isset($_GET["isbn"])){
             $isbn=$_GET["isbn"];
-            $emprunt = $link->query("SELECT emprunt.dateRendu AS rendu,emprunt.idUtilisateur as idus FROM emprunt JOIN  utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = $_Session[‘username’] AND isbn=$isbn")->fetch_assoc();
+            $emprunt = $link->query("SELECT emprunt.prolongation,emprunt.dateRendu AS rendu,emprunt.idUtilisateur as idus FROM emprunt JOIN  utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = '$_Session[‘username’]' AND isbn=$isbn")->fetch_assoc();
             $date= $emprunt['rendu'];
             $id=$emprunt['idus'];
             $nouvdate=date('Y-m-d', strtotime($date. ' + 15 days'));
-           $link->query('UPDATE emprunt SET dateRendu = "'.$nouvdate.'" WHERE isbn = '.$isbn.' AND idUtilisateur = '.$id);
+           $link->query('UPDATE emprunt SET dateRendu = "'.$nouvdate.'", prolongation = 1 WHERE isbn = '.$isbn.' AND idUtilisateur = '.$id);
           }
         ?>
 
@@ -106,7 +106,7 @@
                 </thead>
                 <tbody>
 				<?php
-				$res = $link->query("SELECT livre.isbn AS id,emprunt.dateEmpreint AS emprunt,emprunt.dateRendu AS rendu,livre.titre  AS title FROM emprunt JOIN livre ON emprunt.isbn = livre.isbn JOIN utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = $_Session[‘username’]");
+				$res = $link->query("SELECT emprunt.prolongation,livre.isbn AS id,emprunt.dateEmpreint AS emprunt,emprunt.dateRendu AS rendu,livre.titre  AS title FROM emprunt JOIN livre ON emprunt.isbn = livre.isbn JOIN utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = $_Session[‘username’]");
 				if($res)
 				{
 					
@@ -118,9 +118,16 @@
 							<td>'.$row['title'].'</td>
 							<td>'.$row['emprunt'].'</td>
 							<td>'.$row['rendu'].'</td>
-							<td></a></td>
-							<td><a href="emprunt.php?isbn='.$row['id'].'">Prolonger</a></td>
-						  </tr>';
+							<td></a></td>';
+							if($row['prolongation']==1)
+							{
+								echo '<td>Délai déjà prolongé</td>';
+							}
+							else
+							{
+								echo '<td><a href="emprunt.php?isbn='.$row['id'].'">Prolonger</a></td>';
+							}
+						  echo'</tr>';
 				    }
 		      }
                 ?>

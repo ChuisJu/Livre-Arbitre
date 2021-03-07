@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Mar 07, 2021 at 06:51 AM
+-- Generation Time: Mar 07, 2021 at 08:02 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -80,7 +80,9 @@ CREATE TABLE `date` (
 --
 
 INSERT INTO `date` (`dateEmpreint`) VALUES
-('2021-02-15');
+('2021-02-15'),
+('2021-03-07'),
+('2021-03-22');
 
 -- --------------------------------------------------------
 
@@ -120,15 +122,9 @@ CREATE TABLE `emprunt` (
   `isbn` varchar(50) NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
   `dateEmpreint` date NOT NULL,
-  `dateRendu` date DEFAULT NULL
+  `dateRendu` date DEFAULT NULL,
+  `Prolongation` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `emprunt`
---
-
-INSERT INTO `emprunt` (`isbn`, `idUtilisateur`, `dateEmpreint`, `dateRendu`) VALUES
-('9782226319494', 2, '2021-02-15', NULL);
 
 -- --------------------------------------------------------
 
