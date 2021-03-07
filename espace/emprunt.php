@@ -80,6 +80,16 @@
         ?>
 
         <!-- MAIN CONTENT -->
+        <?php
+         if(isset($_GET["isbn"])){
+            $isbn=$_GET["isbn"];
+            $emprunt = $link->query("SELECT emprunt.dateRendu AS rendu,emprunt.idUtilisateur as idus FROM emprunt JOIN  utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = $_Session[‘username’] AND isbn=$isbn")->fetch_assoc();
+            $date= $emprunt['rendu'];
+            $id=$emprunt['idus'];
+            $nouvdate=date('Y-m-d', strtotime($date. ' + 15 days'));
+           $link->query('UPDATE emprunt SET dateRendu = "'.$nouvdate.'" WHERE isbn = '.$isbn.' AND idUtilisateur = '.$id);
+          }
+        ?>
 
 		<div class="container">
             <h1 class="title">Emprunt</h1>
@@ -96,52 +106,28 @@
                 </thead>
                 <tbody>
 				<?php
-				$res = $link->query("SELECT emprunt.dateEmpreint,emprunt.dateRendu,livre.titre FROM emprunt JOIN livre ON emprunt.isbn = livre.isbn JOIN utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = ".$_Session[‘username’]);
+				$res = $link->query("SELECT livre.isbn AS id,emprunt.dateEmpreint AS emprunt,emprunt.dateRendu AS rendu,livre.titre  AS title FROM emprunt JOIN livre ON emprunt.isbn = livre.isbn JOIN utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = $_Session[‘username’]");
 				if($res)
 				{
 					
 					 while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
 					 {
-					echo'
-					  <tr>
-						<td>a</td>
-						<td>s</td>
-						<td>a</td>
-						<td></a></td>
-						<td><a href="client.php?action=update&show">Prolonger <i class="fas fa-stopwatch"></i></a></td>
-					  </tr>';
-			  }
-				}
+						 
+						echo'
+						  <tr>
+							<td>'.$row['title'].'</td>
+							<td>'.$row['emprunt'].'</td>
+							<td>'.$row['rendu'].'</td>
+							<td></a></td>
+							<td><a href="emprunt.php?isbn='.$row['id'].'">Prolonger</a></td>
+						  </tr>';
+				    }
+		      }
                 ?>
                 </tbody>
             </table>
             
-            <?php
-            $res = $link->query("SELECT emprunt.dateEmpreint,emprunt.dateRendu,livre.titre FROM emprunt JOIN livre ON emprunt.isbn = livre.isbn JOIN utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = ".$_Session[‘username’]);
-    if($res)
-    {
-        echo'<div class="main"><div class="container"><br>';
-        $i=1;
-        while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
-        {
-            if($i%3==1)
-            {
-                echo '<div class="row">';
-            }
-                    echo'<div class="col"><div class="panel1">';
-                                echo '<a href="detail.php?isbn='.$row["isbn"].'"><img src="img/'.$row["isbn"].'.jpg"></a><br>';
-                                echo 'Titre : '.$row["titre"].'<br>';
-                                echo 'Auteur : '.$row["prenom"].' '.$row["nom"].'<br><br>';
-                                
-                        echo'</div></div>';
-            if($i%3==0)
-            {
-                echo '</div>';
-            }
-            $i++;
-        }
-    }
-            ?>
+            
         
         <?php include '../inc/footer.php'; ?>
     </body>
