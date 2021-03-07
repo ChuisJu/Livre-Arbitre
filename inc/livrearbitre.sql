@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.7
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 04 mars 2021 à 14:27
--- Version du serveur :  5.7.31
--- Version de PHP : 7.3.21
+-- Host: localhost:8889
+-- Generation Time: Mar 07, 2021 at 06:51 AM
+-- Server version: 5.7.32
+-- PHP Version: 7.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -18,17 +17,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `livrearbitre`
+-- Database: `livrearbitre`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `aime`
+-- Table structure for table `aime`
 --
 
-DROP TABLE IF EXISTS `aime`;
-CREATE TABLE IF NOT EXISTS `aime` (
+CREATE TABLE `aime` (
   `ISBN` varchar(50) NOT NULL,
   `Aime` int(11) NOT NULL,
   `idUtilisateur` int(11) NOT NULL
@@ -37,21 +35,17 @@ CREATE TABLE IF NOT EXISTS `aime` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `auteur`
+-- Table structure for table `auteur`
 --
 
-DROP TABLE IF EXISTS `auteur`;
-CREATE TABLE IF NOT EXISTS `auteur` (
+CREATE TABLE `auteur` (
   `isbn` varchar(50) NOT NULL,
   `idPersonne` int(255) NOT NULL,
-  `idRole` int(255) NOT NULL,
-  PRIMARY KEY (`isbn`,`idPersonne`,`idRole`),
-  KEY `Auteur_Personne0_FK` (`idPersonne`),
-  KEY `Auteur_Roles1_FK` (`idRole`)
+  `idRole` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `auteur`
+-- Dumping data for table `auteur`
 --
 
 INSERT INTO `auteur` (`isbn`, `idPersonne`, `idRole`) VALUES
@@ -74,17 +68,15 @@ INSERT INTO `auteur` (`isbn`, `idPersonne`, `idRole`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `date`
+-- Table structure for table `date`
 --
 
-DROP TABLE IF EXISTS `date`;
-CREATE TABLE IF NOT EXISTS `date` (
-  `dateEmpreint` date NOT NULL,
-  PRIMARY KEY (`dateEmpreint`)
+CREATE TABLE `date` (
+  `dateEmpreint` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `date`
+-- Dumping data for table `date`
 --
 
 INSERT INTO `date` (`dateEmpreint`) VALUES
@@ -93,18 +85,16 @@ INSERT INTO `date` (`dateEmpreint`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `editeur`
+-- Table structure for table `editeur`
 --
 
-DROP TABLE IF EXISTS `editeur`;
-CREATE TABLE IF NOT EXISTS `editeur` (
-  `idEditeur` int(11) NOT NULL AUTO_INCREMENT,
-  `libelleEditeur` varchar(50) NOT NULL,
-  PRIMARY KEY (`idEditeur`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+CREATE TABLE `editeur` (
+  `idEditeur` int(11) NOT NULL,
+  `libelleEditeur` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `editeur`
+-- Dumping data for table `editeur`
 --
 
 INSERT INTO `editeur` (`idEditeur`, `libelleEditeur`) VALUES
@@ -123,59 +113,52 @@ INSERT INTO `editeur` (`idEditeur`, `libelleEditeur`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `emprunt`
+-- Table structure for table `emprunt`
 --
 
-DROP TABLE IF EXISTS `emprunt`;
-CREATE TABLE IF NOT EXISTS `emprunt` (
+CREATE TABLE `emprunt` (
   `isbn` varchar(50) NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
   `dateEmpreint` date NOT NULL,
-  PRIMARY KEY (`isbn`,`idUtilisateur`,`dateEmpreint`),
-  KEY `Emprunt_Utilisateur0_FK` (`idUtilisateur`),
-  KEY `Emprunt_Date1_FK` (`dateEmpreint`)
+  `dateRendu` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `emprunt`
+-- Dumping data for table `emprunt`
 --
 
-INSERT INTO `emprunt` (`isbn`, `idUtilisateur`, `dateEmpreint`) VALUES
-('9782226319494', 2, '2021-02-15');
+INSERT INTO `emprunt` (`isbn`, `idUtilisateur`, `dateEmpreint`, `dateRendu`) VALUES
+('9782226319494', 2, '2021-02-15', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `formulaire`
+-- Table structure for table `formulaire`
 --
 
-DROP TABLE IF EXISTS `formulaire`;
-CREATE TABLE IF NOT EXISTS `formulaire` (
-  `idForm` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `formulaire` (
+  `idForm` int(255) NOT NULL,
   `prenomForm` varchar(20) NOT NULL,
   `nomForm` varchar(20) NOT NULL,
   `objet` varchar(90) NOT NULL,
   `mail` varchar(90) NOT NULL,
   `telephone` int(11) NOT NULL,
-  `commentaire` varchar(255) NOT NULL,
-  PRIMARY KEY (`idForm`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `commentaire` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `genre`
+-- Table structure for table `genre`
 --
 
-DROP TABLE IF EXISTS `genre`;
-CREATE TABLE IF NOT EXISTS `genre` (
-  `idGenre` int(11) NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(50) NOT NULL,
-  PRIMARY KEY (`idGenre`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+CREATE TABLE `genre` (
+  `idGenre` int(11) NOT NULL,
+  `libelle` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `genre`
+-- Dumping data for table `genre`
 --
 
 INSERT INTO `genre` (`idGenre`, `libelle`) VALUES
@@ -189,18 +172,16 @@ INSERT INTO `genre` (`idGenre`, `libelle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `langue`
+-- Table structure for table `langue`
 --
 
-DROP TABLE IF EXISTS `langue`;
-CREATE TABLE IF NOT EXISTS `langue` (
-  `idLangue` int(11) NOT NULL AUTO_INCREMENT,
-  `language` varchar(50) NOT NULL,
-  PRIMARY KEY (`idLangue`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+CREATE TABLE `langue` (
+  `idLangue` int(11) NOT NULL,
+  `language` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `langue`
+-- Dumping data for table `langue`
 --
 
 INSERT INTO `langue` (`idLangue`, `language`) VALUES
@@ -216,11 +197,10 @@ INSERT INTO `langue` (`idLangue`, `language`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `livre`
+-- Table structure for table `livre`
 --
 
-DROP TABLE IF EXISTS `livre`;
-CREATE TABLE IF NOT EXISTS `livre` (
+CREATE TABLE `livre` (
   `isbn` varchar(50) NOT NULL,
   `titre` varchar(90) NOT NULL,
   `annee` int(11) NOT NULL,
@@ -229,15 +209,11 @@ CREATE TABLE IF NOT EXISTS `livre` (
   `commentaireLivre` varchar(255) DEFAULT NULL,
   `idLangue` int(11) NOT NULL,
   `idEditeur` int(11) NOT NULL,
-  `idGenre` int(11) NOT NULL,
-  PRIMARY KEY (`isbn`),
-  KEY `Livre_Langue_FK` (`idLangue`),
-  KEY `Livre_Editeur0_FK` (`idEditeur`),
-  KEY `Livre_Genre1_FK` (`idGenre`)
+  `idGenre` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `livre`
+-- Dumping data for table `livre`
 --
 
 INSERT INTO `livre` (`isbn`, `titre`, `annee`, `nbpages`, `resume`, `commentaireLivre`, `idLangue`, `idEditeur`, `idGenre`) VALUES
@@ -256,19 +232,17 @@ INSERT INTO `livre` (`isbn`, `titre`, `annee`, `nbpages`, `resume`, `commentaire
 -- --------------------------------------------------------
 
 --
--- Structure de la table `personne`
+-- Table structure for table `personne`
 --
 
-DROP TABLE IF EXISTS `personne`;
-CREATE TABLE IF NOT EXISTS `personne` (
-  `idPersonne` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `personne` (
+  `idPersonne` int(11) NOT NULL,
   `nom` varchar(50) NOT NULL,
-  `prenom` varchar(50) NOT NULL,
-  PRIMARY KEY (`idPersonne`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  `prenom` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `personne`
+-- Dumping data for table `personne`
 --
 
 INSERT INTO `personne` (`idPersonne`, `nom`, `prenom`) VALUES
@@ -291,18 +265,16 @@ INSERT INTO `personne` (`idPersonne`, `nom`, `prenom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `roles`
+-- Table structure for table `roles`
 --
 
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE IF NOT EXISTS `roles` (
-  `idRole` int(11) NOT NULL AUTO_INCREMENT,
-  `role` varchar(30) NOT NULL,
-  PRIMARY KEY (`idRole`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+CREATE TABLE `roles` (
+  `idRole` int(11) NOT NULL,
+  `role` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`idRole`, `role`) VALUES
@@ -314,21 +286,19 @@ INSERT INTO `roles` (`idRole`, `role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateur`
+-- Table structure for table `utilisateur`
 --
 
-DROP TABLE IF EXISTS `utilisateur`;
-CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `utilisateur` (
+  `idUtilisateur` int(11) NOT NULL,
   `mdp` varchar(50) NOT NULL,
   `utilisateur` varchar(50) NOT NULL,
   `numCarte` varchar(50) NOT NULL,
-  `Admin` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`idUtilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `Admin` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `utilisateur`
+-- Dumping data for table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`idUtilisateur`, `mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES
@@ -337,11 +307,134 @@ INSERT INTO `utilisateur` (`idUtilisateur`, `mdp`, `utilisateur`, `numCarte`, `A
 (3, 'motdepasse', 'Michel', '1', 0);
 
 --
--- Contraintes pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Contraintes pour la table `auteur`
+-- Indexes for table `auteur`
+--
+ALTER TABLE `auteur`
+  ADD PRIMARY KEY (`isbn`,`idPersonne`,`idRole`),
+  ADD KEY `Auteur_Personne0_FK` (`idPersonne`),
+  ADD KEY `Auteur_Roles1_FK` (`idRole`);
+
+--
+-- Indexes for table `date`
+--
+ALTER TABLE `date`
+  ADD PRIMARY KEY (`dateEmpreint`);
+
+--
+-- Indexes for table `editeur`
+--
+ALTER TABLE `editeur`
+  ADD PRIMARY KEY (`idEditeur`);
+
+--
+-- Indexes for table `emprunt`
+--
+ALTER TABLE `emprunt`
+  ADD PRIMARY KEY (`isbn`,`idUtilisateur`,`dateEmpreint`),
+  ADD KEY `Emprunt_Utilisateur0_FK` (`idUtilisateur`),
+  ADD KEY `Emprunt_Date1_FK` (`dateEmpreint`);
+
+--
+-- Indexes for table `formulaire`
+--
+ALTER TABLE `formulaire`
+  ADD PRIMARY KEY (`idForm`);
+
+--
+-- Indexes for table `genre`
+--
+ALTER TABLE `genre`
+  ADD PRIMARY KEY (`idGenre`);
+
+--
+-- Indexes for table `langue`
+--
+ALTER TABLE `langue`
+  ADD PRIMARY KEY (`idLangue`);
+
+--
+-- Indexes for table `livre`
+--
+ALTER TABLE `livre`
+  ADD PRIMARY KEY (`isbn`),
+  ADD KEY `Livre_Langue_FK` (`idLangue`),
+  ADD KEY `Livre_Editeur0_FK` (`idEditeur`),
+  ADD KEY `Livre_Genre1_FK` (`idGenre`);
+
+--
+-- Indexes for table `personne`
+--
+ALTER TABLE `personne`
+  ADD PRIMARY KEY (`idPersonne`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`idRole`);
+
+--
+-- Indexes for table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  ADD PRIMARY KEY (`idUtilisateur`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `editeur`
+--
+ALTER TABLE `editeur`
+  MODIFY `idEditeur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `formulaire`
+--
+ALTER TABLE `formulaire`
+  MODIFY `idForm` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `genre`
+--
+ALTER TABLE `genre`
+  MODIFY `idGenre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `langue`
+--
+ALTER TABLE `langue`
+  MODIFY `idLangue` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `personne`
+--
+ALTER TABLE `personne`
+  MODIFY `idPersonne` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `idRole` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `utilisateur`
+--
+ALTER TABLE `utilisateur`
+  MODIFY `idUtilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `auteur`
 --
 ALTER TABLE `auteur`
   ADD CONSTRAINT `Auteur_Livre_FK` FOREIGN KEY (`isbn`) REFERENCES `livre` (`isbn`),
@@ -349,7 +442,7 @@ ALTER TABLE `auteur`
   ADD CONSTRAINT `Auteur_Roles1_FK` FOREIGN KEY (`idRole`) REFERENCES `roles` (`idRole`);
 
 --
--- Contraintes pour la table `emprunt`
+-- Constraints for table `emprunt`
 --
 ALTER TABLE `emprunt`
   ADD CONSTRAINT `Emprunt_Date1_FK` FOREIGN KEY (`dateEmpreint`) REFERENCES `date` (`dateEmpreint`),
@@ -357,13 +450,12 @@ ALTER TABLE `emprunt`
   ADD CONSTRAINT `Emprunt_Utilisateur0_FK` FOREIGN KEY (`idUtilisateur`) REFERENCES `utilisateur` (`idUtilisateur`);
 
 --
--- Contraintes pour la table `livre`
+-- Constraints for table `livre`
 --
 ALTER TABLE `livre`
   ADD CONSTRAINT `Livre_Editeur0_FK` FOREIGN KEY (`idEditeur`) REFERENCES `editeur` (`idEditeur`),
   ADD CONSTRAINT `Livre_Genre1_FK` FOREIGN KEY (`idGenre`) REFERENCES `genre` (`idGenre`),
   ADD CONSTRAINT `Livre_Langue_FK` FOREIGN KEY (`idLangue`) REFERENCES `langue` (`idLangue`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
