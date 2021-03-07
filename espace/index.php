@@ -46,7 +46,7 @@
         <a> Votre numéro de carte est : <?php echo"$numcarte" ?> </a></br>
         <a href="../disconnect.php"> se déconnecter </a><br>
         <a href="emprunt.php">voir les livres empruntés</a><br>
-        <a href="avis.php">Voir les livres likés et les commentaires</a>
+        <!--<a href="avis.php">Voir les livres likés et les commentaires</a>-->
       </div>
       <?php include '../inc/footer.php'; ?>
     </body>
