@@ -1,4 +1,6 @@
 <?php 
+
+error_reporting(0);
 session_start(); ?>
 
 <!DOCTYPE html>
@@ -14,7 +16,7 @@ session_start(); ?>
         <link rel="stylesheet" href="./css/footer.css">
         <link rel="stylesheet" href="./css/index.css">
         <link rel="stylesheet" href="./css/book_grid.css">
-
+&
         <!-- SCRIPT -->
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -40,13 +42,12 @@ session_start(); ?>
 			$rendu =date('Y-m-d', strtotime($date. ' + 15 days'));
 			$link->query('INSERT INTO date VALUES ("'.$date.'")');
 			$link->query('INSERT INTO date VALUES ("'.$rendu.'")');
-			$utilisateur=$link->query('SELECT * FROM utilisateur WHERE utilisateur=' . $_SESSION[‘username’] . '"')->fetch_assoc();
+			$utilisateur=$link->query('SELECT * FROM utilisateur WHERE utilisateur="' . $_SESSION['username'] . '"')->fetch_assoc();
 			$iduser=$utilisateur['idUtilisateur'];
 			//$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'")');
-			if (!$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu,Prolongation) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'",0)')) {
-				printf("Message d'erreur : %s\n", $link->error);
-			}
-			//            INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES (9782226186072,1,"2021-03-07","2021-03-22")
+            
+			$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu,Prolongation) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'",0)');
+			$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES (9782226186072,1,"2021-03-07","2021-03-22"');
           }
           
         ?>
@@ -61,7 +62,7 @@ echo "<div class='book_grille'>";
     
     
 		//$num=$L['nblike'];
-		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
+		echo "<img src='img/".$id.".jpg'  height=40% width=25%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
 		if($book['idLangue']!=2)
@@ -91,18 +92,20 @@ echo "<div class='book_grille'>";
             if(isset($_SESSION['open'])){
                 if($_SESSION['open'] == 1){
 					//############################
-					$user=$link->query('SELECT * FROM utilisateur WHERE utilisateur="'.$_SESSION['username']  . '"')->fetch_assoc();
+					$user=$link->query('SELECT * FROM utilisateur WHERE utilisateur="' . $_SESSION['username']  . '"')->fetch_assoc();
 					$iduser=$user['idUtilisateur'];
 					//############################
 					?>
-                    <!-- <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br> 
-                    <button class="formulaire" type="submit">Commenter</button>-->
+                    <!-- <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>-->
+                    <!-- <button class="formulaire" type="submit">Commenter</button> --> 
                     <?php
                     /*if(isset($_GET["like"]))
                     {
-						$jaime= $link->query("SELECT * FROM aime WHERE ISBN=$id AND idUtilisateur=$iduser")->fetch_assoc();
+						$jaime = $link->query("SELECT * FROM aime WHERE ISBN=" . $id . " AND idUtilisateur=" . $iduser)->fetch_assoc();
+                        $jc = $link->query("SELECT * FROM aime WHERE ISBN=" . $id . " AND idUtilisateur=" . $iduser);
                         $like = $_GET["like"];
-                        if((mysqli_num_rows($jaime) > 0))
+
+                        if($jc->rowCount() == 0)
                         {
 								if($like==true)
 								{
@@ -123,23 +126,23 @@ echo "<div class='book_grille'>";
 								{
 									$num=$num-1;
 									//$link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
-									$link->query("UPDATE aime SET Aime = 0 WHERE isbn = $id AND idUtilisateur=$iduser;");
+									$link->query("UPDATE `aime` SET `Aime` = 0 WHERE `isbn` = '$id' AND idUtilisateur='$iduser';");
 								}
 							}
 						}
                     }
                     echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$num;*/
+                    
+        echo '</br></br><form action="detail.php?isbn='.$id.' method="GET">';
+        echo '</br></br><button class="emprunt" value="emprunt">Emprunter</button>
+            </form>';
                 }
             }
             //header('Location:');
             ?>
             </div>
-        <br></form></div>
-        <?php
-        echo '<form action="detail.php?isbn='.$id.'&emprunt=1" method="POST">';
-        ?>
-                <button class="emprunt" type="submit">Emprunter</button>
-            </form>
+        </form></div>
+        
     
     </div></div>
     
@@ -161,3 +164,12 @@ echo "<div class='book_grille'>";
     </body>
 </html>
 
+<?php
+
+if(isset($_GET['emprunt'])){
+
+    
+    echo "<script>alert('livre emprunté !');</script>";
+}
+
+?>
