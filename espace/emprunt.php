@@ -136,7 +136,7 @@
             
             
         
-        <?php include '../inc/footer.php'; ?>
+        
     </body>
 </html>
 
@@ -144,12 +144,7 @@
     }
 ?>
 
-<?php
 
- 
-
-
-include 'inc/footer.php'; ?>
     </body>
 </html>
 
