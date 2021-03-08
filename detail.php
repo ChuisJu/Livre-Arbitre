@@ -40,7 +40,7 @@ session_start(); ?>
 			$rendu =date('Y-m-d', strtotime($date. ' + 15 days'));
 			$link->query('INSERT INTO date VALUES ("'.$date.'")');
 			$link->query('INSERT INTO date VALUES ("'.$rendu.'")');
-			$utilisateur=link->query("SELECT * FROM utilisateurs WHERE utilisateur=$_Session[‘username’]")->fetch_assoc();
+			$utilisateur=$link->query('SELECT * FROM utilisateur WHERE utilisateur=' . $_SESSION[‘username’] . '"')->fetch_assoc();
 			$iduser=$utilisateur['idUtilisateur'];
 			//$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'")');
 			if (!$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu,Prolongation) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'",0)')) {
@@ -60,7 +60,7 @@ echo "<div class='book_grille'>";
     echo "<div align ='center' class='titre'><h1><b>".$book['titre']."</b></h1>";
     
     
-		$num=$L['nblike'];
+		//$num=$L['nblike'];
 		echo "<img src='img/".$id.".jpg'  height=40% width=40%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
@@ -91,14 +91,14 @@ echo "<div class='book_grille'>";
             if(isset($_SESSION['open'])){
                 if($_SESSION['open'] == 1){
 					//############################
-					$user=$link->query("SELECT * FROM utilisateur WHERE utilisateur=".$_SESSION['username'])->fetch_assoc();
+					$user=$link->query('SELECT * FROM utilisateur WHERE utilisateur="'.$_SESSION['username']  . '"')->fetch_assoc();
 					$iduser=$user['idUtilisateur'];
 					//############################
 					?>
-                    <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br>
-                    <button class="formulaire" type="submit">Commenter</button>
+                    <!-- <textarea id="comment" name="comment" placeholder="Commenter ce livre" ></textarea><br> 
+                    <button class="formulaire" type="submit">Commenter</button>-->
                     <?php
-                    if(isset($_GET["like"]))
+                    /*if(isset($_GET["like"]))
                     {
 						$jaime= $link->query("SELECT * FROM aime WHERE ISBN=$id AND idUtilisateur=$iduser")->fetch_assoc();
                         $like = $_GET["like"];
@@ -123,12 +123,12 @@ echo "<div class='book_grille'>";
 								{
 									$num=$num-1;
 									//$link->query("UPDATE `livre` SET `likeLivre` = '$num' WHERE `livre`.`isbn` = '$id';");
-									$link->query("UPDATE `aime` SET `Aime` = 0 WHERE `isbn` = '$id' AND idUtilisateur='$iduser';");
+									$link->query("UPDATE aime SET Aime = 0 WHERE isbn = $id AND idUtilisateur=$iduser;");
 								}
 							}
 						}
                     }
-                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$num;
+                    echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$num;*/
                 }
             }
             //header('Location:');
