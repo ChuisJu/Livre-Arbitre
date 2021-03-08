@@ -14,7 +14,7 @@
         <ul class="list-inline">
             <li class="list-inline-item"><a href='<?php echo $CONFIG['root_path'] . "index.php" ?>'>Accueil</a></li>
             <li class="list-inline-item"><a href='<?php echo $CONFIG['root_path'] . "contact.php" ?>'>Contact</a></li>
-            <li class="list-inline-item"><a href='<a href='<?php echo $CONFIG['root_path'] . "index.php" ?>'>Espace client</a></li>
+            <li class="list-inline-item"><a href='<?php echo $CONFIG['root_path'] . "/espace/index.php" ?>'>Espace client</a></li>
         </ul>
         <p class="copyright">Livre Arbitre © 2021</p>
     </footer>
