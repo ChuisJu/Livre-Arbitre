@@ -13,6 +13,11 @@
 bd {
   grid-area: header;
 }
+.bookimage
+{
+	height:500px;
+	width:250px;
+}
 
 .book_grille>p{
 font-style:bold;}

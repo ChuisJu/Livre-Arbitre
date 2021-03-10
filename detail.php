@@ -16,7 +16,7 @@ session_start(); ?>
         <link rel="stylesheet" href="./css/footer.css">
         <link rel="stylesheet" href="./css/index.css">
         <link rel="stylesheet" href="./css/book_grid.css">
-&
+
         <!-- SCRIPT -->
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -62,7 +62,7 @@ echo "<div class='book_grille'>";
     
     
 		//$num=$L['nblike'];
-		echo "<img src='img/".$id.".jpg'  height=40% width=25%>";
+		echo "<img src='img/".$id.".jpg'  height=40% width=25% class='bookimage'>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
 		if($book['idLangue']!=2)
