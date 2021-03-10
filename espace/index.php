@@ -140,7 +140,7 @@
 
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
               if($password['password'] = $_POST['password']){
-
+				echo "<script>alert('Connexion réussi');</script>";	
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
 
@@ -158,8 +158,11 @@
                 $_SESSION['isAdmin'] = $isA['Admin'];
 
               }
-
             }
+            if($password['password'] != $_POST['password'])
+            {
+				echo "<script>alert('Mot de passe ou identifiant incorrect');</script>";
+			}
           }
         }
       }
