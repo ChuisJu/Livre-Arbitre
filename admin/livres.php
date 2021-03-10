@@ -67,6 +67,8 @@ if($_GET['action'] == "add"){
                         <br>
                         <label for="name">Langue du livre :</label><br>
                         <select name="langue">
+                        <br>
+                        
                         
                         ';
                         while ($l = mysqli_fetch_array($lang, MYSQLI_ASSOC)) {?>
@@ -99,6 +101,10 @@ if($_GET['action'] == "add"){
 <?php
             echo'</select></fieldset>
                 <br>
+                <label for="image">Couverture du livre :</label><br>
+                <input type="file" name="imgupload"id="imgupload"><br>
+                <!--<input type="submit" value="Upload Image" name="submit">-->
+                <br>
                 <div align="center">
                     <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
                 </div>
@@ -108,6 +114,7 @@ if($_GET['action'] == "add"){
                 </div>
                 <div align="center">
                     <a href="index.php">Revenir sur le panel administrateur</a>
+                    
                 </div>
             </div>';
 
@@ -123,12 +130,21 @@ if($_GET['action'] == "add"){
                 if(isset($_POST['annee'])){
                     if(isset($_POST['nbpages'])){
                         if(isset($_POST['resume'])){
+							if(isset($_FILES['imgupload'])){
 
                             $sql = 'INSERT INTO livre (`isbn`, `titre`, `annee`, `nbpages`, `resume`, `idLangue`, `idEditeur`, `idGenre`) VALUES ("' . $_POST['isbn'] . '", "' . $_POST['titre'] . '", "' . $_POST['annee'] . '", "' . $_POST['nbpages'] . '", "' . $_POST['resume'] . '", "' . $_POST['langue'] . '", "' . $_POST['editeur'] . '", "' . $_POST['genre'] . '")';
                             $link->query($sql);
+                            
+                            $path = "../img/";
+							$path = $path . $_GET['isbn'].".png";
 
-                            echo "<script>alert('Livre inséré avec succès !');</script>";
-
+							if(move_uploaded_file($_FILES['imgupload']['tmp_name'], $path)) {
+							  echo "The file ".  basename( $_FILES['imgupload']['name']). 
+							  " has been uploaded";
+							} else{
+								echo "There was an error uploading the file, please try again!";
+							}
+						  }
                         }
                     }
                 }
@@ -336,7 +352,7 @@ if($_GET['action'] == "update"){
                 <div class="main">
                     <div class="container"><br><br><br>
                         <div class ="grille">
-                <div class="formulaire"><form method="post" action="livres.php?action=update&isbn=' . $intid . '">
+                <div class="formulaire"><form enctype="multipart/form-data" method="post" action="livres.php?action=update&isbn=' . $intid . '">
                     <fieldset class="formulaire">
                         <fieldset class="formulaire">
                         <legend>Modifier un livre</legend>
@@ -399,9 +415,11 @@ while ($g = mysqli_fetch_array($genr, MYSQLI_ASSOC)) {?>
                             <br>
                     </fieldset>
                     <br>
+                    <input type="file" name="imgupload" id="imgupload">
                     <div align="center">
                         <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
                     </div>
+                    
                 </form></div></div>
                 <br><br><br>
 
