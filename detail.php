@@ -16,7 +16,7 @@ session_start(); ?>
         <link rel="stylesheet" href="./css/footer.css">
         <link rel="stylesheet" href="./css/index.css">
         <link rel="stylesheet" href="./css/book_grid.css">
-
+        
         <!-- SCRIPT -->
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -35,7 +35,7 @@ session_start(); ?>
          if(isset($_GET["isbn"])){
             $id=$_GET["isbn"];
           }
-         if(isset($_GET["emprunt"])){
+         /*if(isset($_GET["emprunt"])){
             $emprunt=$_GET["emprunt"];
             date_default_timezone_set('Europe/Paris');
 			$date = date('Y-m-d');
@@ -48,7 +48,7 @@ session_start(); ?>
             
 			$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu,Prolongation) VALUES ('.$id.','.$iduser.',"'.$date.'","'.$rendu.'",0)');
 			$link->query('INSERT INTO emprunt (isbn, idUtilisateur, dateEmpreint, dateRendu) VALUES (9782226186072,1,"2021-03-07","2021-03-22"');
-          }
+          }*/
           
         ?>
         <!-- MAIN CONTENT -->
@@ -62,7 +62,7 @@ echo "<div class='book_grille'>";
     
     
 		//$num=$L['nblike'];
-		echo "<img src='img/".$id.".jpg'  height=40% width=25% class='bookimage'>";
+		echo "<img src='img/".$id.".jpg'  height=40% width=25%>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
 		if($book['idLangue']!=2)
@@ -133,9 +133,9 @@ echo "<div class='book_grille'>";
                     }
                     echo '<a href=detail.php?isbn='.$id.'&amp;like=true><img src="img/pouce.ico" height=10% width=10%></a>'.$num;*/
                     
-        echo '</br></br><form action="detail.php?isbn='.$id.' method="GET">';
+        /*echo '</br></br><form action="detail.php?isbn='.$id.' method="GET">';
         echo '</br></br><button class="emprunt" value="emprunt">Emprunter</button>
-            </form>';
+            </form>';*/
                 }
             }
             //header('Location:');
@@ -166,10 +166,10 @@ echo "<div class='book_grille'>";
 
 <?php
 
-if(isset($_GET['emprunt'])){
+/*if(isset($_GET['emprunt'])){
 
     
     echo "<script>alert('livre emprunté !');</script>";
-}
+}*/
 
 ?>
