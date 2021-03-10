@@ -140,7 +140,7 @@
 
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
               if($password['password'] = $_POST['password']){
-				echo "<script>alert('Connexion réussi');</script>";	
+
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
 
@@ -149,6 +149,8 @@
 
                 $carteNum = mysqli_query($link, "SELECT numCarte FROM utilisateur WHERE utilisateur = '" . $username . "'");
                 $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
+                $idu = mysqli_query($link, 'SELECT idUtilisateur FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                $idU = mysqli_fetch_array($idu, MYSQLI_ASSOC);
 
                 $_SESSION['open'] = 1;
                 $_SESSION['numcarte'] = $carte['numCarte'];
@@ -157,12 +159,11 @@
 
                 $_SESSION['isAdmin'] = $isA['Admin'];
 
+                $_SESSION['idUtilisateur'] = $idU['idUtilisateur'];
+
               }
+
             }
-            if($password['password'] != $_POST['password'])
-            {
-				echo "<script>alert('Mot de passe ou identifiant incorrect');</script>";
-			}
           }
         }
       }

@@ -13,44 +13,7 @@
 
 
             ?>
-
-    <html lang="fr">
-      <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-      <!-- CSS -->
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      <link rel="stylesheet" href="../css/header.css">
-      <link rel="stylesheet" href="../css/footer.css">
-      <link rel="stylesheet" href="../css/login.css">
-      <link rel="stylesheet" href="../css/book_grid.css">
-      <link rel="stylesheet" href="../css/index.css">
-
-      <!-- SCRIPT -->
-
-      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-      <title></title>
-    </head>
-    <body>
-      <?php
-        include '../inc/header.php';
-        include '../inc/db_conn.php';
-      ?>
-      
-      <?php include '../inc/footer.php'; ?>
-    </body>
-</html>
-
-            <?php
-        }
-    } else{
-?> 
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -71,7 +34,7 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        <title></title>
+        <title>Espace Utilisateur</title>
     </head>
     <body>
 
@@ -81,14 +44,15 @@
 
         <!-- MAIN CONTENT -->
         <?php
-         if(isset($_GET["isbn"])){
-            $isbn=$_GET["isbn"];
-            $emprunt = $link->query("SELECT emprunt.prolongation,emprunt.dateRendu AS rendu,emprunt.idUtilisateur as idus FROM emprunt JOIN  utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = '$_Session[‘username’]' AND isbn=$isbn")->fetch_assoc();
-            $date= $emprunt['rendu'];
-            $id=$emprunt['idus'];
-            $nouvdate=date('Y-m-d', strtotime($date. ' + 15 days'));
-           $link->query('UPDATE emprunt SET dateRendu = "'.$nouvdate.'", prolongation = 1 WHERE isbn = '.$isbn.' AND idUtilisateur = '.$id);
-          }
+         
+ 
+          $emprunt = mysqli_query($link, 'SELECT * FROM emprunt e INNER JOIN utilisateur u ON e.idUtilisateur = u.idUtilisateur INNER JOIN livre l ON e.isbn = l.isbn WHERE u.idUtilisateur = '. $_SESSION['idUtilisateur']);
+          //$row1 = mysqli_fetch_array($emprunt, MYSQLI_ASSOC);
+          //var_dump($row1);
+          
+          
+          
+          
         ?>
 
 		<div class="container">
@@ -100,51 +64,60 @@
                     <th scope="col">Titre</th>
                     <th scope="col">Date d'emprunt</th>
                     <th scope="col">Date de rendu</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <th scope="col">Prolongation</th>
                   </tr>
                 </thead>
                 <tbody>
 				<?php
-				$res = $link->query("SELECT emprunt.prolongation,livre.isbn AS id,emprunt.dateEmpreint AS emprunt,emprunt.dateRendu AS rendu,livre.titre  AS title FROM emprunt JOIN livre ON emprunt.isbn = livre.isbn JOIN utilisateur ON emprunt.idUtilisateur = utilisateur.idUtilisateur WHERE utilisateur.utilisateur = $_Session[‘username’]");
-				if($res)
-				{
+
+				
+				
 					
-					 while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
+					 while($row = mysqli_fetch_array($emprunt, MYSQLI_ASSOC))
 					 {
-						 
-						echo'
+				?>
+
+
 						  <tr>
-							<td>'.$row['title'].'</td>
-							<td>'.$row['emprunt'].'</td>
-							<td>'.$row['rendu'].'</td>
-							<td></a></td>';
-							if($row['prolongation']==1)
-							{
+							<td><?php echo $row['titre']; ?></td>
+							<td><?php echo $row['dateEmpreint']; ?></td>
+            
+							<?php 
+              if ($row['Prolongation'] == 1){
+                echo '<td>' . $row['dateRendu'] . '</td>';
+              } ?>
+              
+
+          <?php
+              if ($row['Prolongation'] == 0){
+                echo '<td>Pas encore de prolongation de temps</td>';
+              }
+							if($row['Prolongation']==1){
+
 								echo '<td>Délai déjà prolongé</td>';
 							}
-							else
-							{
-								echo '<td><a href="emprunt.php?isbn='.$row['id'].'">Prolonger</a></td>';
-							}
-						  echo'</tr>';
-				    }
-		      }
-                ?>
+							else{
+
+								echo '<td><a href="emprunt.php?isbn='.$row['isbn'].'">Prolonger</a></td>';
+							            
+				      }
+            }
+
+            echo '</tr>';
+            if (isset($_GET['isbn'])){
+              if ($row['Prolongation'] == 0){
+                $prolongation=date('Y-m-d', strtotime($row['dateRendu']. ' + 30 days'));
+                $nouvDate = mysqli_query($link, 'SELECT * FROM emprunt');
+                $nouvdate = mysqli_fetch_array($nouvDate, MYSQLI_ASSOC);
+                $link->query('UPDATE emprunt SET dateRendu = "'.$prolongation.'", prolongation = 1 WHERE isbn = '. $_GET['isbn'] .' AND idUtilisateur = ' . $_SESSION['idUtilisateur']);
+              }
+            }
+          }
+    }
+          ?>
                 </tbody>
             </table>
-            
-            
-        
-        
-    </body>
-</html>
-
-<?php
-    }
-?>
-
-
+    
     </body>
 </html>
 
