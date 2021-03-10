@@ -1,6 +1,6 @@
 <?php
 
-$CONFIG = array('root_path' => 'http://' . $_SERVER['SERVER_NAME'] . "/Livre-Arbitre/",
+$CONFIG = array('root_path' => 'http://' . $_SERVER['SERVER_NAME'] . "/exercice/Livre-Arbitre-main/",
                 'dbhost' => 'localhost',
                 'dbuser' => 'Biblioreader',
                 'dbpwd' => 'SuperRoot77',
