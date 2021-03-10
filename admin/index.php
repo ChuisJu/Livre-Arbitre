@@ -219,7 +219,7 @@ if(isset($_POST['user_name'])){
         if($user['utilisateur'] == $_POST['user_name']){
 
           while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-            if($password['password'] = $_POST['password']){
+            if($password['password'] == $_POST['password']){
 
               $username = $_POST['user_name'];
               $password = $_POST['password'];
@@ -230,13 +230,16 @@ if(isset($_POST['user_name'])){
               if($isA['Admin'] == 1){
 
                 $carteNum = mysqli_query($link, 'SELECT numCarte FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                $idu = mysqli_query($link, 'SELECT idUtilisateur FROM utilisateur WHERE utilisateur = "' . $username . '"');
                 $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
+                $idU = mysqli_fetch_array($idu, MYSQLI_ASSOC);
 
                 $_SESSION['open'] = 1;
                 $_SESSION['numcarte'] = $carte['numCarte'];
                 $_SESSION['username'] = $_POST['user_name'];
                 $_SESSION['password'] = $_POST['password'];
                 $_SESSION['isAdmin'] = $isA['Admin'];
+                $_SESSION['idUtilisateur'] = $idU['idUtilisateur'];
 
                 header('location: index.php');
               }
