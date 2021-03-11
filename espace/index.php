@@ -132,36 +132,47 @@
       if(isset($_POST['submit'])){
 
         $users = mysqli_query($link, "SELECT utilisateur FROM utilisateur");
-        $passwords = mysqli_query($link, "SELECT mdp FROM utilisateur");
+        
         
         while ($user = mysqli_fetch_array($users, MYSQLI_ASSOC)) {
 
           if($user['utilisateur'] == $_POST['user_name']){
-
+          $passwords = mysqli_query($link, 'SELECT mdp FROM utilisateur WHERE utilisateur = "' . $user['utilisateur'] . '"');
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-              if($password['password'] = $_POST['password']){
+              if($password['mdp'] == $_POST['password']){
+                
+                if($user['utilisateur'] == $_POST['user_name']){
+                  $username = $_POST['user_name'];
+                  $password = $_POST['password'];
 
-                $username = $_POST['user_name'];
-                $password = $_POST['password'];
+                  $isAdmin = mysqli_query($link, 'SELECT `Admin` FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                  $isA = mysqli_fetch_array($isAdmin, MYSQLI_ASSOC);
 
-                $isAdmin = mysqli_query($link, 'SELECT `Admin` FROM utilisateur WHERE utilisateur = "' . $username . '"');
-                $isA = mysqli_fetch_array($isAdmin, MYSQLI_ASSOC);
+                  $carteNum = mysqli_query($link, 'SELECT numCarte FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                  $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
+                  $idu = mysqli_query($link, 'SELECT idUtilisateur FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                  $idU = mysqli_fetch_array($idu, MYSQLI_ASSOC);
 
-                $carteNum = mysqli_query($link, "SELECT numCarte FROM utilisateur WHERE utilisateur = '" . $username . "'");
-                $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
-                $idu = mysqli_query($link, 'SELECT idUtilisateur FROM utilisateur WHERE utilisateur = "' . $username . '"');
-                $idU = mysqli_fetch_array($idu, MYSQLI_ASSOC);
+                  $_SESSION['open'] = 1;
+                  $_SESSION['numcarte'] = $carte['numCarte'];
+                  $_SESSION['username'] = $_POST['user_name'];
+                  $_SESSION['password'] = $_POST['password'];
 
-                $_SESSION['open'] = 1;
-                $_SESSION['numcarte'] = $carte['numCarte'];
-                $_SESSION['username'] = $_POST['user_name'];
-                $_SESSION['password'] = $_POST['password'];
+                  $_SESSION['isAdmin'] = $isA['Admin'];
 
-                $_SESSION['isAdmin'] = $isA['Admin'];
+                  $_SESSION['idUtilisateur'] = $idU['idUtilisateur'];
 
-                $_SESSION['idUtilisateur'] = $idU['idUtilisateur'];
 
+
+                  header('location: ../index.php?connected');
+
+                  die();
+                }
               }
+              if($password['mdp'] != $_POST['password'])
+            {
+                echo "<script>alert('Mot de passe ou identifiant incorrect');</script>";
+            }
 
             }
           }
