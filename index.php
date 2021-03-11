@@ -73,4 +73,11 @@ if(isset($_GET['success'])){
     echo "<script>alert('Formulaire envoyé avec succès');</script>";
 }
 
+if(isset($_GET['connected'])){
+    echo "<script>alert ('Vous avez bien été connecté');</script>";
+}
+
+
+
+
 ?>

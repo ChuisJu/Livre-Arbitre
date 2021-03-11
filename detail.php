@@ -62,7 +62,7 @@ echo "<div class='book_grille'>";
     
     
 		//$num=$L['nblike'];
-		echo "<img src='img/".$id.".jpg'  height=40% width=25%>";
+		echo "<img src='img/".$id.".jpg'  height=40% width=25% class ='bookimage'>";
 		echo "<br>";
 		echo "<br><p>Auteur: ".$book['prenom']." ".$book['nom']."</p>";
 		if($book['idLangue']!=2)
