@@ -79,8 +79,10 @@ if($_GET['action'] == "add"){
         if(isset($_POST['name'])){
             if(isset($_POST['id'])){
                 if(isset($_POST['password'])){
+					
+					$mot_de_passe=password_hash($_POST['password']);
 
-                    $sql = 'INSERT INTO utilisateur (`mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES ("' . $_POST['password'] . '", "' . $_POST['name'] . '", "' . $_POST['id'] . '", "0")';
+                    $sql = 'INSERT INTO utilisateur (`mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES ("' . $mot_de_passe . '", "' . $_POST['name'] . '", "' . $_POST['id'] . '", "0")';
                     $link->query($sql);
 
                     echo "<script>alert('Client inséré avec succès !');</script>";

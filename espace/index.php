@@ -141,7 +141,7 @@
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
               if($password['mdp'] == $_POST['password']){
                 
-                if($user['utilisateur'] == $_POST['user_name']){
+                if(password_verify($_POST['user_name'],$user['utilisateur'])){
                   $username = $_POST['user_name'];
                   $password = $_POST['password'];
 
