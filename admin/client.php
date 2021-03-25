@@ -80,7 +80,7 @@ if($_GET['action'] == "add"){
             if(isset($_POST['id'])){
                 if(isset($_POST['password'])){
 					
-					$mot_de_passe=password_hash($_POST['password']);
+					$mot_de_passe=password_hash($_POST['password'],PASSWORD_DEFAULT);
 
                     $sql = 'INSERT INTO utilisateur (`mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES ("' . $mot_de_passe . '", "' . $_POST['name'] . '", "' . $_POST['id'] . '", "0")';
                     $link->query($sql);

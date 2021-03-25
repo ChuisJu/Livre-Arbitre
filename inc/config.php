@@ -1,11 +1,11 @@
 <?php
 
 $CONFIG = array('root_path' => '/',
-                'dbhost' => 'ipssisqlivrearbi.mysql.db',
-                'dbuser' => 'ipssisqlivrearbi',
-                'dbpwd' => 'Gnr9Yp8QdC268',
+                'dbhost' => 'localhost',
+                'dbuser' => 'Biblioreader',
+                'dbpwd' => 'SuperRoot77',
                 'dbport' => '3306',
-                'dbname' => 'ipssisqlivrearbi'
+                'dbname' => 'livrearbitre'
             );
 
 ?>
