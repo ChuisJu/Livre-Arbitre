@@ -138,10 +138,9 @@
 
           if($user['utilisateur'] == $_POST['user_name']){
           $passwords = mysqli_query($link, 'SELECT mdp FROM utilisateur WHERE utilisateur = "' . $user['utilisateur'] . '"');
-            while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-              if($password['mdp'] == $_POST['password']){
-                
-                if(password_verify($_POST['user_name'],$user['utilisateur'])){
+            while ($result = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
+              if(password_verify($_POST['password'],$result)){
+                if(($_POST['user_name']==$user['utilisateur'])){
                   $username = $_POST['user_name'];
                   $password = $_POST['password'];
 
@@ -156,7 +155,7 @@
                   $_SESSION['open'] = 1;
                   $_SESSION['numcarte'] = $carte['numCarte'];
                   $_SESSION['username'] = $_POST['user_name'];
-                  $_SESSION['password'] = $_POST['password'];
+                  $_SESSION['password'] = $result;
 
                   $_SESSION['isAdmin'] = $isA['Admin'];
 
@@ -165,7 +164,7 @@
 
 
                   header('location: ../index.php?connected');
-
+					
                   die();
                 }
               }
