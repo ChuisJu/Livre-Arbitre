@@ -44,9 +44,46 @@
       <div class="main">
         <a> Bonjour <?php echo "$user !"?></a></br>
         <a> Votre numéro de carte est : <?php echo"$numcarte" ?> </a></br>
-        <a href="../disconnect.php"> se déconnecter </a><br>
-        <a href="emprunt.php">voir les livres empruntés</a><br>
-        <!--<a href="avis.php">Voir les livres likés et les commentaires</a>-->
+        </br>
+        <div class="main">
+        <?php
+                    echo '
+                <div class="formulaire"><form method="post" action="index.php">
+                    <fieldset class="formulaire">
+                        <fieldset class="formulaire">
+                        <legend>Modifier vos informations</legend>
+                            <label for="name">Nom d\'utilisateur :</label><br>
+                            <input type="text" id="name" name="username" value="' . $_SESSION['username'] . '" autofocus required>
+                            <br>
+                            <label for="name">Nouveau de passe :</label><br>
+                            <input type="text" id="password" name="password" required>
+                            <br>
+                    </fieldset>
+                    <br>
+                    <div align="center">
+                        <button class="formulaire" type="submit" name="submit">Confirmer</button></fieldset>
+                    </div>
+                </form></div>
+                </br>
+                <center>
+                <a href="../disconnect.php">se déconnecter</a>
+                </center>
+                </div>
+
+                <br><br><br>';
+
+                if(isset($_POST['submit'])){
+                  if(isset($_POST['username'])){
+                    if(isset($_POST['password'])){ 
+                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", mdp = "' . $_POST['password'] . '" WHERE idUtilisateur = ' . $intid;
+                            $link->query($sql);
+                        
+                            echo "<script>alert('Informations modifiées avec succès !');</script>";
+      
+                    }
+                  }
+                }
+                ?>
       </div>
       <?php include '../inc/footer.php'; ?>
     </body>
@@ -117,7 +154,7 @@
             </div>
         </div>
 
-        <?php include '../inc/footer.php'; ?> 
+        <?php include '../inc/footer.php'; ?>
     </body>
 </html>
 
@@ -132,46 +169,33 @@
       if(isset($_POST['submit'])){
 
         $users = mysqli_query($link, "SELECT utilisateur FROM utilisateur");
-        
+        $passwords = mysqli_query($link, "SELECT mdp FROM utilisateur");
         
         while ($user = mysqli_fetch_array($users, MYSQLI_ASSOC)) {
 
           if($user['utilisateur'] == $_POST['user_name']){
-          $passwords = mysqli_query($link, 'SELECT mdp FROM utilisateur WHERE utilisateur = "' . $user['utilisateur'] . '"');
-            while ($result = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-              if(password_verify($_POST['password'],$result['mdp'])){
-                if(($_POST['user_name']==$user['utilisateur'])){
-                  $username = $_POST['user_name'];
-                  $password = $_POST['password'];
 
-                  $isAdmin = mysqli_query($link, 'SELECT `Admin` FROM utilisateur WHERE utilisateur = "' . $username . '"');
-                  $isA = mysqli_fetch_array($isAdmin, MYSQLI_ASSOC);
+            while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
+              if($password['password'] = $_POST['password']){
 
-                  $carteNum = mysqli_query($link, 'SELECT numCarte FROM utilisateur WHERE utilisateur = "' . $username . '"');
-                  $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
-                  $idu = mysqli_query($link, 'SELECT idUtilisateur FROM utilisateur WHERE utilisateur = "' . $username . '"');
-                  $idU = mysqli_fetch_array($idu, MYSQLI_ASSOC);
+                $username = $_POST['user_name'];
+                $password = $_POST['password'];
 
-                  $_SESSION['open'] = 1;
-                  $_SESSION['numcarte'] = $carte['numCarte'];
-                  $_SESSION['username'] = $_POST['user_name'];
-                  $_SESSION['password'] = $result;
+                $isAdmin = mysqli_query($link, 'SELECT `Admin` FROM utilisateur WHERE utilisateur = "' . $username . '"');
+                $isA = mysqli_fetch_array($isAdmin, MYSQLI_ASSOC);
 
-                  $_SESSION['isAdmin'] = $isA['Admin'];
+                $carteNum = mysqli_query($link, "SELECT numCarte FROM utilisateur WHERE utilisateur = '" . $username . "'");
+                $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
 
-                  $_SESSION['idUtilisateur'] = $idU['idUtilisateur'];
+                $_SESSION['open'] = 1;
+                $_SESSION['numcarte'] = $carte['numCarte'];
+                $_SESSION['username'] = $_POST['user_name'];
+                $_SESSION['password'] = $_POST['password'];
 
+                $_SESSION['isAdmin'] = $isA['Admin'];
+                
 
-
-                  header('location: ../index.php?connected');
-					
-                  die();
-                }
               }
-              if($password['mdp'] != $_POST['password'])
-            {
-                echo "<script>alert('Mot de passe ou identifiant incorrect');</script>";
-            }
 
             }
           }
@@ -180,7 +204,4 @@
     }
   }
 
-
 ?>
-    </body>
-</html>
