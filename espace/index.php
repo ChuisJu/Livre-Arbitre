@@ -139,7 +139,7 @@
           if($user['utilisateur'] == $_POST['user_name']){
           $passwords = mysqli_query($link, 'SELECT mdp FROM utilisateur WHERE utilisateur = "' . $user['utilisateur'] . '"');
             while ($result = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-              if(password_verify($_POST['password'],$result)){
+              if(password_verify($_POST['password'],$result['mdp'])){
                 if(($_POST['user_name']==$user['utilisateur'])){
                   $username = $_POST['user_name'];
                   $password = $_POST['password'];
