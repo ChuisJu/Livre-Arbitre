@@ -75,7 +75,7 @@
                 if(isset($_POST['submit'])){
                   if(isset($_POST['username'])){
                     if(isset($_POST['password'])){ 
-                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", mdp = "' . $_POST['password'] . '" WHERE idUtilisateur = ' . $intid;
+                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", mdp = "' . hash($_POST['password']) . '" WHERE idUtilisateur = ' . $intid;
                             $link->query($sql);
                         
                             echo "<script>alert('Informations modifiées avec succès !');</script>";
@@ -176,7 +176,7 @@
           if($user['utilisateur'] == $_POST['user_name']){
 
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-              if(password_verify($_POST['password'],$result['mdp'])){
+              if($password['password'] = $_POST['password']){
 
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
