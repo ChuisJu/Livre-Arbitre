@@ -69,7 +69,6 @@
                 <a href="../disconnect.php">se déconnecter</a>
                 </center>
                 </div>
-
                 <br><br><br>';
 
                 if(isset($_POST['submit'])){
