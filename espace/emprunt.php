@@ -10,6 +10,7 @@
             $user = $_SESSION['username'];
             $password = $_SESSION['password'];
             $numcarte = $_SESSION['numcarte'];
+            $initid = $_SESSION['initid']
 
 
             ?>
@@ -46,7 +47,7 @@
         <?php
          
  
-          $emprunt = mysqli_query($link, 'SELECT * FROM emprunt e INNER JOIN utilisateur u ON e.idUtilisateur = u.idUtilisateur INNER JOIN livre l ON e.isbn = l.isbn WHERE u.idUtilisateur = '. $_SESSION['idUtilisateur']);
+          $emprunt = mysqli_query($link, 'SELECT * FROM emprunt e INNER JOIN utilisateur u ON e.idUtilisateur = u.idUtilisateur INNER JOIN livre l ON e.isbn = l.isbn WHERE u.idUtilisateur = '. $initid);
           //$row1 = mysqli_fetch_array($emprunt, MYSQLI_ASSOC);
           //var_dump($row1);
           
@@ -109,7 +110,7 @@
                 $prolongation=date('Y-m-d', strtotime($row['dateRendu']. ' + 30 days'));
                 $nouvDate = mysqli_query($link, 'SELECT * FROM emprunt');
                 $nouvdate = mysqli_fetch_array($nouvDate, MYSQLI_ASSOC);
-                $link->query('UPDATE emprunt SET dateRendu = "'.$prolongation.'", prolongation = 1 WHERE isbn = '. $_GET['isbn'] .' AND idUtilisateur = ' . $_SESSION['idUtilisateur']);
+                $link->query('UPDATE emprunt SET dateRendu = "'.$prolongation.'", prolongation = 1 WHERE isbn = '. $_GET['isbn'] .' AND idUtilisateur = ' . $initid);
               }
             }
           }

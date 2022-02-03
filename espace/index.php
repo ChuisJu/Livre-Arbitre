@@ -10,6 +10,7 @@
             $user = $_SESSION['username'];
             $password = $_SESSION['password'];
             $numcarte = $_SESSION['numcarte'];
+            $initid = $_SESSION['initid'];
 
 
             ?>
@@ -66,7 +67,8 @@
                 </form></div>
                 </br>
                 <center>
-                <a href="../disconnect.php">se déconnecter</a>
+                <a href="../disconnect.php">Se déconnecter</a>
+                <a href="emprunt.php"> Voir mes emprunts</a>
                 </center>
                 </div>
                 <br><br><br>';
@@ -74,7 +76,7 @@
                 if(isset($_POST['submit'])){
                   if(isset($_POST['username'])){
                     if(isset($_POST['password'])){ 
-                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", mdp = "' . hash($_POST['password']) . '" WHERE idUtilisateur = ' . $intid;
+                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", mdp = "' . hash('md5', $_POST['password']) . '" WHERE idUtilisateur = ' . $initid;
                             $link->query($sql);
                         
                             echo "<script>alert('Informations modifiées avec succès !');</script>";
@@ -162,10 +164,9 @@
 ?>
 
 <?php
-
-  if(isset($_POST['user_name'])){
-    if(isset($_POST['password'])){
-      if(isset($_POST['submit'])){
+  if(isset($_POST['submit'])){
+    if(isset($_POST['user_name'])){
+      if(isset($_POST['password'])){
 
         $users = mysqli_query($link, "SELECT utilisateur FROM utilisateur");
         $passwords = mysqli_query($link, "SELECT mdp FROM utilisateur");
@@ -174,8 +175,9 @@
 
           if($user['utilisateur'] == $_POST['user_name']){
 
+            $pass = md5($_POST['password']);
             while ($password = mysqli_fetch_array($passwords, MYSQLI_ASSOC)) {
-              if(password_verify($_POST['password'],$result['mdp'])){
+              if($pass == $password['mdp']){
 
                 $username = $_POST['user_name'];
                 $password = $_POST['password'];
@@ -186,14 +188,18 @@
                 $carteNum = mysqli_query($link, "SELECT numCarte FROM utilisateur WHERE utilisateur = '" . $username . "'");
                 $carte = mysqli_fetch_array($carteNum, MYSQLI_ASSOC);
 
+                $id = mysqli_query($link, "SELECT idUtilisateur FROM utilisateur WHERE utilisateur = '" . $username . "'");
+                $initid = mysqli_fetch_array($id, MYSQLI_ASSOC);
+
                 $_SESSION['open'] = 1;
                 $_SESSION['numcarte'] = $carte['numCarte'];
                 $_SESSION['username'] = $_POST['user_name'];
                 $_SESSION['password'] = $_POST['password'];
+                $_SESSION['initid'] = $initid['idUtilisateur'];
 
                 $_SESSION['isAdmin'] = $isA['Admin'];
                 
-
+                echo("<meta http-equiv='refresh' content='0'>");
               }
 
             }
@@ -201,6 +207,6 @@
         }
       }
     }
-  }
 
+  }
 ?>

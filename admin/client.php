@@ -79,7 +79,8 @@ if($_GET['action'] == "add"){
             if(isset($_POST['id'])){
                 if(isset($_POST['password'])){
 					
-					$mot_de_passe=password_hash($_POST['password'],PASSWORD_DEFAULT);
+					$mot_de_passe=$_POST['password'];
+                    $mot_de_passe = hash('md5', $mot_de_passe);
 					$nom=password_hash($_POST['name'],PASSWORD_DEFAULT);
 
                     $sql = 'INSERT INTO utilisateur (`mdp`, `utilisateur`, `numCarte`, `Admin`) VALUES ("' . $mot_de_passe . '", "' . $_POST['name'] . '", "' . $_POST['id'] . '", "0")';
@@ -310,7 +311,9 @@ if($_GET['action'] == "update"){
                             } else{
                                 die('Mauvaise saisie ("admin" ou "client"');
                             }
-                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", numCarte = "' . $_POST['id'] . '", mdp = "' . $_POST['password'] . '", Admin = ' . $perm . ' WHERE idUtilisateur = ' . $intid;
+                            $newpass = $_POST['password'];
+                            $newpass = hash('md5', $newpass);
+                            $sql = 'UPDATE utilisateur SET utilisateur = "' . $_POST['username'] . '", numCarte = "' . $_POST['id'] . '", mdp = "' . $newpass . '", Admin = ' . $perm . ' WHERE idUtilisateur = ' . $intid;
                             $link->query($sql);
                         
                             echo "<script>alert('Client modifié avec succès !');</script>";
