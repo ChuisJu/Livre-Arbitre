@@ -21,12 +21,14 @@
     </head>
     <body>
 
+        <h1> BALISE TEMPORAIRE </h1>
+        
         <?php
         include 'inc/header.php';
         include 'inc/db_conn.php';
         ?>
         <!-- MAIN CONTENT -->
-        <h1> BALISE TEMPORAIRE </h1>
+        
 
 <?php
     $res = $link->query("SELECT livre.titre,livre.isbn,personne.prenom,personne.nom FROM livre JOIN auteur ON auteur.isbn =livre.isbn JOIN personne ON personne.idPersonne = auteur.idPersonne JOIN roles ON auteur.idRole=roles.idRole WHERE role='Ecrivain'");
